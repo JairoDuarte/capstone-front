@@ -58,4 +58,3 @@ export default class MenuExampleSecondary extends Component {
     )
   }
 }
-// TODO: change to `type NodeRequireFunction = (id: string) => any;` in next mayor version.

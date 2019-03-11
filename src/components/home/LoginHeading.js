@@ -37,8 +37,7 @@ export default  class Login extends Component {
           
         }, 1000)
     }
-    // TODO je dois bien analyser cette partie il y a des errors
-
+    
     openPopup = () => {
         const { socket } = this.props
         const width = 600, height = 600

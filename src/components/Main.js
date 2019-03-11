@@ -49,7 +49,7 @@ class Main extends Component {
           this.props.isAuthenticated === false
             ? <Component {...props} />
             : <Redirect to={{
-                pathname: '/profile',
+                pathname: '/profile/3',
                 state: { from: props.location }
               }} />
         )} />)
@@ -61,8 +61,9 @@ class Main extends Component {
           <LoginRoute exact path="/home" component={HomePage} />
           <Route exact  path='/about' component={()=> <h1>about</h1>} />
           <PrivateRoute path='/terms' component={()=> <h1>Terms</h1>} />
-          <PrivateRoute exact path='/profile' component={Profile} />
-          <PrivateRoute path='/profile/:page' component={Profile} />
+          <PrivateRoute exact path='/profile/:columns' component={Profile} />
+          <PrivateRoute path='/profile/:columns/:page' component={Profile} />
+          <PrivateRoute path='/skhera/:columns/:page' component={Profile} />
           <Redirect to="/home" />
         </Switch>
         <Footer/>

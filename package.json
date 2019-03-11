@@ -1,5 +1,5 @@
 {
-  "name": "confusion",
+  "name": "jible",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,6 +17,7 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "semantic-ui-calendar-react": "^0.14.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.85.0",
     "socket.io": "^2.2.0",
@@ -27,6 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint:fix": "eslint '**/*.js' --fix",
     "server": "cd confusion-api && json-server --watch db.json -p 3001 -d 2000",
     "now-build": "react-scripts build"
   },
