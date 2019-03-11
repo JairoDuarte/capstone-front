@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { updateUserService } from '../../redux/ActionCreators';
+import { updateUserService, addSkheraService } from '../../redux/ActionCreators';
 import Menu from './Menu'
 import { Link } from 'react-router-dom';
 import RequestSkhera from './RequestSkhera';
@@ -53,7 +53,7 @@ class UpdateUserForm extends Component {
         user.profile.fullname = this.state.fullname;
         user.profile.email = this.state.email;
         user.profile.phone = this.state.phone;
-        this.props.updateUserService(user)
+        this.props.updateUserService(user);
     }
     validationForm = () => Yup.object().shape({
         fullname: Yup.string()
@@ -102,7 +102,8 @@ const mapStateToProps = state => {
     }
 }
 const mapDispatchToProps = dispatch => ({
-    updateUserService: (user) => dispatch(updateUserService(user))
+    updateUserService: (user) => dispatch(updateUserService(user)),
+    addSkheraService: (skhera) => dispatch(addSkheraService(skhera))
 
 });
 
@@ -211,7 +212,7 @@ class Profile extends Component {
                 return (
                     <>
                     <Grid.Column textAlign='left'>
-                        <RequestSkhera></RequestSkhera>
+                        <RequestSkhera addSkheraService={this.props.addSkheraService}></RequestSkhera>
                     </Grid.Column>
 
                     </>

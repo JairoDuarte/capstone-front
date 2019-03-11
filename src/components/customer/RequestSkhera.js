@@ -72,7 +72,16 @@ export default class RequestSkhera extends Component {
         }
       }
     handleSubmit = () => {
+        let skhera = {};
 
+        skhera.from = this.state.from;
+        skhera.to = this.state.to;
+        skhera.description = this.state.description;        
+        skhera.deliver = this.state.deliver;
+        skhera.price = this.state.price;
+        skhera.schedule = this.state.schedule;
+        skhera.items = this.state.items;
+        this.props.addSkheraService(skhera);
     }
     validationForm = () => Yup.object().shape({
         fullname: Yup.string()

@@ -1,3 +1,4 @@
+export const GET_SKHERA = 'GET_SKHERA'
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
 export const SIGNUP_RIDER = 'SIGNUP_RIDER';
