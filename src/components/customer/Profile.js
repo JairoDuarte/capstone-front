@@ -8,25 +8,6 @@ import {
 } from 'semantic-ui-react';
 import * as Yup from 'yup';
 import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux';
-import { updateUserService, addSkheraService } from '../../redux/ActionCreators';
-import Menu from './Menu'
-import { Link } from 'react-router-dom';
-import RequestSkhera from './RequestSkhera';
-import Faq from './Faq';
-
-function ButtomRequest(props) {
-
-    return (
-        <Button as={Link} to='/skhera/2/add' size='huge' color='grs' style={{ textAlign: 'left', width: '252px', marginLeft: '1.7em', padding: '1em 0px' }}>
-            <Icon name='edit outline' size='big' style={{ marginTop: '1em', marginBottom: '1em', marginLeft: '1.0em' }} />
-            <br /><span style={{ padding: '0px 30px', height: '19px', width: '148px', color: '#FFFFFF', fontFamily: 'Ropa Sans', fontSize: '18px', lineheight: '19px', marginBottom: '' }}>  Request Skhera</span>
-            <Icon name='right arrow' style={{ padding: '0px 40px' }} />
-        </Button>
-    )
-}
-
 
 class UpdateUserForm extends Component {
     constructor(props) {
@@ -96,146 +77,26 @@ class UpdateUserForm extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.auth.user
-    }
+
+export default  function Profile (props)  {
+
+    return (
+        <>
+        <Grid columns={2} stackable style={{ marginBottom: '3.2em' }} >
+            <Grid.Row>
+                <Grid.Column>
+                    <Header as='h3'>
+                        <Image circular src='https://react.semantic-ui.com/images/avatar/large/patrick.png' />
+
+                    </Header>
+                </Grid.Column>
+                <Grid.Column style={{ marginTop: '0.2em' }} >
+                    <span style={{ marginLeft: '-130px', height: '17px', width: '73px', color: '#000000', fontWeight: 'normal', fontFamily: 'Ropa Sans', fontSize: '16px', lineheight: '17px' }}>Jairo Duarte <br /> </span>
+                    <span style={{ marginLeft: '-130px', height: '17px', width: '73px', color: '#909090;', fontWeight: 'normal', fontFamily: 'Ropa Sans', fontSize: '16px', lineheight: '17px' }}>+212622333820 </span>
+                </Grid.Column>
+            </Grid.Row>
+        </Grid>
+        <UpdateUserForm updateUserService={props.updateUserService} user={props.user}></UpdateUserForm>
+    </>
+    )
 }
-const mapDispatchToProps = dispatch => ({
-    updateUserService: (user) => dispatch(updateUserService(user)),
-    addSkheraService: (skhera) => dispatch(addSkheraService(skhera))
-
-});
-
-class Profile extends Component {
-    state = { active: 'My Profile', columns: 3 }
-
-
-
-    render() {
-        const { params } = this.props.match;
-        const MyProfile = () => {
-            return (
-                <>
-                    <Grid columns={2} stackable style={{ marginBottom: '3.2em' }} >
-                        <Grid.Row>
-                            <Grid.Column>
-                                <Header as='h3'>
-                                    <Image circular src='https://react.semantic-ui.com/images/avatar/large/patrick.png' />
-
-                                </Header>
-                            </Grid.Column>
-                            <Grid.Column style={{ marginTop: '0.2em' }} >
-                                <span style={{ marginLeft: '-130px', height: '17px', width: '73px', color: '#000000', fontWeight: 'normal', fontFamily: 'Ropa Sans', fontSize: '16px', lineheight: '17px' }}>Jairo Duarte <br /> </span>
-                                <span style={{ marginLeft: '-130px', height: '17px', width: '73px', color: '#909090;', fontWeight: 'normal', fontFamily: 'Ropa Sans', fontSize: '16px', lineheight: '17px' }}>+212622333820 </span>
-
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                    <UpdateUserForm updateUserService={this.props.updateUserService} user={this.props.user}></UpdateUserForm>
-                </>
-            )
-        }
-        const RenderButton = () => {
-            return (
-                params.page ? <div></div> :
-                    <ButtomRequest></ButtomRequest>
-            )
-        }
-        const RenderMenu = () => {
-            if (!params.page) {
-                return (
-                    <Menu active='My Profile'></Menu>
-                )
-            }
-            else if (params.page === 'list') {
-                return (
-                    <Menu active='My Skhera'></Menu>
-                )
-            }
-            else if (params.page === 'add') {
-                return (
-                    <Menu active='My Skhera'></Menu>
-                )
-            }
-            else if (params.page === 'address') {
-                return (
-                    <Menu active='My Address'></Menu>
-                )
-            }
-            else if (params.page === 'faq') {
-                return (
-                    <Menu active='FAQ'></Menu>
-                )
-            }
-        }
-        const RenderComponent = () => {
-            if (!this.props.match.params.page) {
-                return (
-                    <>
-                    <Grid.Column textAlign='left'>
-                    <MyProfile></MyProfile>
-                    </Grid.Column>
-                    <Grid.Column>
-                        <RenderButton></RenderButton>
-                    </Grid.Column>
-                    </>
-                )
-            }
-            else if (this.props.match.params.page === 'list') {
-
-                return (
-                    <>
-                    </>
-                )
-            }
-            else if (this.props.match.params.page === 'address') {
-
-                return (
-                    <>
-                    </>
-                )
-            }
-            else if (this.props.match.params.page === 'faq') {
-                
-                return (
-                    <>
-                    <Grid.Column textAlign='left'>
-                        <Faq></Faq>
-                    </Grid.Column>
-
-                    </>
-                )
-            }
-            else if (this.props.match.params.page === 'add') {
-                
-                return (
-                    <>
-                    <Grid.Column textAlign='left'>
-                        <RequestSkhera addSkheraService={this.props.addSkheraService}></RequestSkhera>
-                    </Grid.Column>
-
-                    </>
-                )
-            }
-        }
-
-        return (
-            <div>
-                <Container style={{ color: 'black', marginBottom: '150px', marginTop: '120px', width: '100%', height: '100%', padding: '0em 0em' }} >
-
-                    <Grid columns={this.props.match.params.columns} container stackable  >
-                        <Grid.Row>
-                            <Grid.Column style={{ marginTop: '1.2em' }}>
-                                <RenderMenu></RenderMenu>
-                            </Grid.Column>
-                            <RenderComponent></RenderComponent>
-                        </Grid.Row>
-
-                    </Grid>
-                </Container>
-            </div>
-        )
-    }
-}
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile));

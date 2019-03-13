@@ -1,15 +1,9 @@
-'use strict'
-
 import React, { Component } from 'react'
 import * as Yup from 'yup';
 import { DateTimeInput } from 'semantic-ui-calendar-react';
+import PlacesAutocomplete, { geocodeByAddress,getLatLng } from 'react-places-autocomplete';
+import { Icon, Grid, Form, Input, TextArea, Button, Select, Header } from 'semantic-ui-react';
 import Map from './Map';
-import PlacesAutocomplete, {
-    geocodeByAddress,
-    getLatLng,
-} from 'react-places-autocomplete';
-import { Icon, Grid, Form, Input, TextArea, Button, Select, Header } from 'semantic-ui-react'
-
 
 let countryOptions = [
     { key: 1, text: 'ASAP', value: 'ASAP' },
@@ -54,7 +48,7 @@ export default class RequestSkhera extends Component {
             to: { text: '3416 Tenmile Road, Waltham, Massachusetts, 3 floor', coordinates: [41.8525800, -87.6514100]},
             description: 'Text here',
             deliver: '',
-            price: '100dh-200dh',
+            price: '',
             schedule: 'Schedule',
             items: ['2k potatos', '1L Milk'],
             item: '',
@@ -62,10 +56,6 @@ export default class RequestSkhera extends Component {
             addressTo: ''
         }
     }
-    componentDidMount(){
-        console.log('hello');
-    }
-   
 
     handleInputChange = event => {
         const target = event.target;
@@ -82,14 +72,12 @@ export default class RequestSkhera extends Component {
         this.setState({ items: items });
     }
     addItem = () => {
-        console.log('add item');
         let items = this.state.items;
         if (this.state.item.length > 3) { items.push(this.state.item); }
         this.setState({ items: items, item: '' });
     }
     handleSelect = (event, { value }) => this.setState({ deliver: value })
     handleChange = (event, { name, value }) => {
-        console.log('la');
         if (this.state.hasOwnProperty(name)) {
             this.setState({ [name]: value });
         }
@@ -119,20 +107,14 @@ export default class RequestSkhera extends Component {
             .required('Required'),
     });
 
-    handleChangeAddress = ({value, name}) => {
-        console.log(value);
-        console.log(name);
-       // this.setState({ address: address});
-    };
     handleSelectAddress = async () => {
-        if (!(this.state.addressFrom === '') && !(this.state.addressTo === '')) {
+        if (this.state.addressFrom !== '' && this.state.addressTo !== '') {
             let fromCoordinates = await getCoordinates(this.state.addressFrom);
             let toCoordinates = await getCoordinates(this.state.addressTo);
             this.setState({
                 from: { text: this.state.addressFrom, coordinates: [fromCoordinates.lat, fromCoordinates.lng]},
                 to: { text: this.state.addressTo, coordinates: [toCoordinates.lat, toCoordinates.lng]},
             })
-            console.log(fromCoordinates);
         }
     };
 
@@ -181,7 +163,7 @@ export default class RequestSkhera extends Component {
 
                             <Form.Field>
                                 <label style={{ color: '#909090', fontFamily: "Ropa Sans", fontSize: '16px', fontWeight: 'normal', }}>Describe your skhera</label>
-                                <Input onChange={this.handleInputChange} value={this.state.price} name="price" defaultValue='100dh-200dh' icon='dollar sign' id='phone' iconPosition='left' placeholder='100-200' />
+                                <Input onChange={this.handleInputChange} value={this.state.price} name="price" defaultValue='100dh-200dh' icon='dollar sign' id='phone' iconPosition='left' placeholder='100dh-200dh' />
                             </Form.Field>
                             <Form.Button onClick={()=>this.handleSubmit()} type="submit" color='grs' style={{ marginTop: '1em', marginLeft: '0em', width: '100%', height: '' }} disabled={!this.state.price || this.state.items.length < 1 || !this.state.description || !this.state.deliver || !this.state.price || !this.state.schedule || !this.state.to || !this.state.from}>Order Now</Form.Button>
 
