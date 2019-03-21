@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css?family=Ropa+Sans');
+* {
+  font-family: 'Ropa Sans';
+ }
+ svg {
+  height: 19px;
+  width: 19px;
+  margin-top: 9px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+
+.App {
+    text-align: center;
+  }
+  
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+.ui.grl.buttons .button,
+.ui.grl.button {
+  background-color: rgb(247, 239, 239);
+  color: rgb(7, 1, 1);
+  text-shadow: none;
+  background-image: none;
+}
+
+.ui.grl.button {
+  -webkit-box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+  box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+}
+
+.ui.grl.buttons .button:hover,
+.ui.grl.button:hover {
+  background-color: #cacbcd;
+  color:black;
+  text-shadow: none;
+}
+
+.ui.grs.buttons .button,
+.ui.grs.button {
+  background-color: #3c9e77;
+  color:white;
+  text-shadow: none;
+  background-image: none;
+}
+
+.ui.grs.button {
+  -webkit-box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+  box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+}
+
+.ui.grs.buttons .button:hover,
+.ui.grs.button:hover {
+  background-color: #0f962e;
+  color:white;
+  text-shadow: none;
+}
+
+
+
+
+
+.ui.pink.buttons .button,
+.ui.pink.button {
+  background-color: #ffffff;
+  color:black;
+  text-shadow: none;
+  background-image: none;
+}
+
+.ui.pink.button {
+  -webkit-box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+  box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+}
+
+.ui.pink.buttons .button:hover,
+.ui.pink.button:hover {
+  background-color: #0f962e;
+  color:white;
+  text-shadow: none;
+}
+
+.ui.green.buttons .button,
+.ui.green.button {
+  background-color: rgb(247, 239, 239);
+  color: rgb(7, 1, 1);
+  text-shadow: none;
+  background-image: none;
+}
+
+.ui.green.button {
+  -webkit-box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+  box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+}
+
+.ui.green.buttons .button:hover,
+.ui.green.button:hover {
+  background-color: #cacbcd;
+  color:black;
+  text-shadow: none;
+}
