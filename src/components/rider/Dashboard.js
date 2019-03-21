@@ -3,6 +3,8 @@ import { Container, Grid} from 'semantic-ui-react';
 import { withRouter} from 'react-router-dom'
 import { connect } from 'react-redux';
 import Menu from '../customer/Menu'
+import Profile from '../customer/Profile';
+import { updateUserService } from '../../actions/user';
 
 const mapStateToProps = state => {
     return {
@@ -10,6 +12,9 @@ const mapStateToProps = state => {
     }
 }
 
+const mapDispatchToProps = dispatch => ({
+    updateUserService: (user) => dispatch(updateUserService(user))
+});
 
 class Dashboard extends Component {
     state = { active: 'My Profile', columns: 3, menus: [{label: 'Skherat TODO', url: '/dashboard/skhera/2/'},{label: 'My Profile', url: '/dashboard/profile/3'}, {label: 'Statistics', url: '/dashboard/statistics/3/'}, {label: 'FAQ', url: '/dashboard/faq/2/'} ]}
@@ -45,6 +50,7 @@ class Dashboard extends Component {
                 return (
                     <>
                     <Grid.Column textAlign='left'>
+                        <Profile updateUserService={this.props.updateUserService} user={this.props.user}></Profile>
                     </Grid.Column>
                     <Grid.Column>
                     </Grid.Column>
@@ -97,4 +103,4 @@ class Dashboard extends Component {
         )
     }
 }
-export default withRouter(connect(mapStateToProps)(Dashboard));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));
