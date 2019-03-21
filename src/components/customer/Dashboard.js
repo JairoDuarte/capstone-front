@@ -1,24 +1,28 @@
 import React, { Component } from 'react'
-import { Container, Grid  } from 'semantic-ui-react';
+import { Container, Grid, TransitionablePortal, Segment  } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import Menu from './Menu'
 import Profile from './Profile';
-import { updateUserService } from '../../actions/user';
+import { updateUserService, removeNotification, addNotification } from '../../actions/user';
 
 const mapStateToProps = state => {
     return {
-        user: state.auth.user
+        user: state.auth.user,
+        notification: state.user.notification,
+        open: state.user.open
     }
 }
 
 
 const mapDispatchToProps = dispatch => ({
-    updateUserService: (user) => dispatch(updateUserService(user))
+    updateUserService: (user) => dispatch(updateUserService(user)),
+    addNotification: (notification) => dispatch(addNotification(notification)),
+    removeNotification: () => dispatch(removeNotification())
 });
 
 class Dashboard extends Component {
-    state = { active: 'My Profile', description: '', open: false, columns: 3, menus: [{ label: 'My Skhera', url: '/skhera/2/list' }, { label: 'My Profile', url: '/profile/3' }, { label: 'My Address', url: '/profile/3/address' }, { label: 'FAQ', url: '/profile/2/faq' }] }
+    state = { active: 'My Profile', open: false, columns: 3, menus: [{ label: 'My Skhera', url: '/skhera/2/list' }, { label: 'My Profile', url: '/profile/3' }, { label: 'My Address', url: '/profile/3/address' }, { label: 'FAQ', url: '/profile/2/faq' }] }
     
     render() {
         const { params } = this.props.match;
@@ -113,6 +117,21 @@ class Dashboard extends Component {
                             </Grid.Column>
                             <RenderComponent></RenderComponent>
                         </Grid.Row>
+                        <TransitionablePortal transition={{duration: 1000}} onClose={()=> this.props.removeNotification()} open={this.props.open}>
+                            <Segment
+                                raised={true}
+                                
+                                style={{
+                                    left: '62%',
+                                    position: 'absolute',
+                                    top: '15%',
+                                    zIndex: 1000,
+                                }}
+                            >
+                            <h4 style={{ fontWeight: 'normal'  }}>{this.props.notification}</h4>
+
+                            </Segment>
+                        </TransitionablePortal>
                     </Grid>
                 </Container>
             </div>

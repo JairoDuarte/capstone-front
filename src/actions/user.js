@@ -6,7 +6,8 @@ export const updateUserService = (user) => async (dispatch) => {
         await api.put(`/api/users/${user.id}`, user)
         const response = await api.get('/api/users/me')
         localStorage.setItem('user', JSON.stringify(response.data));
-        return dispatch(updateUser(response.data))
+        dispatch(addNotification('Profile Updated'));
+        return dispatch(updateUser(response.data));
     
     } catch (e) {
         console.log(e);
@@ -23,4 +24,12 @@ export const updateUser = (user) => ({
 export const addLocation = (location) => ({
     type: ActionTypes.ADD_LOCATION,
     payload: location
+})
+export const addNotification = (notification) => ({
+    type: ActionTypes.ADD_NOTIFICATION,
+    payload: notification
+})
+export const removeNotification = () => ({
+    type: ActionTypes.REMOVE_NOTIFICATION,
+    payload: ''
 })
