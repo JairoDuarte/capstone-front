@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
 import { baseUrl } from '../services/baseUrl';
 import {signout} from '../actions/auth'
 import { acceptSkheraService, declineSkheraService } from '../actions/skhera';
-
+import { updateUserStatus } from '../actions/user'
 
 const socket = io.connect(baseUrl);
 export const CUSTOMER_ROLE = 'consumer';
@@ -29,7 +29,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   signout: () => dispatch(signout()),
   declineSkheraService: (skhera) => dispatch(declineSkheraService(skhera)),
-  acceptSkheraService: (skhera) => dispatch(acceptSkheraService(skhera))
+  acceptSkheraService: (skhera) => dispatch(acceptSkheraService(skhera)),
+  updateUserStatus: () => dispatch(updateUserStatus()) 
 });
 
 class Main extends Component {
@@ -45,6 +46,7 @@ class Main extends Component {
       
       return this.props.isAuthenticated ? (
         <HeaderCustomer 
+        updateUserStatus={this.props.updateUserStatus}
         acceptSkheraService={this.props.acceptSkheraService}
         declineSkheraService={this.props.declineSkheraService}
         notifications={this.props.notifications} 

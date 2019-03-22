@@ -1,6 +1,8 @@
-import React ,{ Component } from 'react';
+import React, { Component } from 'react';
 import { Container, Menu, Header, Image, Button, Grid, Popup, Icon } from 'semantic-ui-react';
+import { STATUS_ACTIF } from '../../constants'
 let _this = {};
+
 export default class HeaderComponent extends Component {
     state = { open: false, min: 0, sec: 0, latitude: 0, longitude: 0 }
 
@@ -17,7 +19,7 @@ export default class HeaderComponent extends Component {
             else {
                 let min = 0;
                 let sec = 60
-                this.setState({ min: min, sec: sec, open: true }); 
+                this.setState({ min: min, sec: sec, open: true });
                 this.handleTimer = setInterval(() => this.timer(time), 1000);
             }
 
@@ -40,7 +42,18 @@ export default class HeaderComponent extends Component {
     render() {
         let color = this.props.notifications && this.props.notifications.length === 0 ? '' : 'green';
         let name = this.props.notifications && this.props.notifications.length === 0 ? 'bell outline' : 'bell';
-
+        const RenderStatus = () => {
+            return (this.props.user.status === STATUS_ACTIF ?
+                <Popup on='click' content={<Button onClick={() => this.props.updateUserStatus()} color='grs'
+                    content='Inactif' fluid />} trigger={<Icon as='i' size='large' color='green'
+                        name='bell' />} wide>
+                </Popup> :
+                <Popup on='click' content={<Button onClick={() => this.props.updateUserStatus()} color='grs'
+                    content='Actif' fluid />} trigger={<Icon as='i' size='large'
+                        name='bell outline' />} wide>
+                </Popup>
+            )
+        }
         const RenderNotification = () => {
             let skhera = this.state.open ? this.props.notifications[0] : null;
             return (this.state.open ?
@@ -70,7 +83,7 @@ export default class HeaderComponent extends Component {
                     </Popup>
                 </> :
                 <>
-                    <Icon as='i' size='large' color={color} name={name} />
+                    <RenderStatus></RenderStatus>
                 </>
             )
         }
