@@ -1,28 +1,61 @@
 import React, { Component } from 'react'
 import { Container, Grid, TransitionablePortal, Segment} from 'semantic-ui-react';
 import { withRouter} from 'react-router-dom'
+import { geolocated } from 'react-geolocated';
 import { connect } from 'react-redux';
 import Menu from '../customer/Menu'
 import Profile from '../customer/Profile';
-import { updateUserService, addNotification, removeNotification } from '../../actions/user';
+import { updateUserService, addNotification, removeNotification, addLocation } from '../../actions/user';
+import { notificationSkheraService } from '../../actions/skhera';
 
 const mapStateToProps = state => {
     return {
         user: state.auth.user,
         notification: state.user.notification,
-        open: state.user.open
+        open: state.user.open,
+        location: state.user.location
     }
 }
 
 const mapDispatchToProps = dispatch => ({
     updateUserService: (user) => dispatch(updateUserService(user)),
     addNotification: (notification) => dispatch(addNotification(notification)),
-    removeNotification: () => dispatch(removeNotification())
+    removeNotification: () => dispatch(removeNotification()),
+    addLocation: (location) => dispatch(addLocation(location)),
+    notificationSkheraService: (notification) => dispatch(notificationSkheraService(notification))
+    
 });
 
 class Dashboard extends Component {
     state = { active: 'My Profile', columns: 3, menus: [{label: 'Skherat TODO', url: '/dashboard/skhera/2/'},{label: 'My Profile', url: '/dashboard/profile/3'}, {label: 'Statistics', url: '/dashboard/statistics/3/'}, {label: 'FAQ', url: '/dashboard/faq/2/'} ]}
     
+    componentDidMount(){
+        const {socket} = this.props;
+        this.handleLocation = setInterval(() => this.setLocation(), 1000000);
+
+        socket.on('new skhera',({skhera, idrider}) => {
+            
+            if (idrider === this.props.user.id){
+                let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+                for (let index = 0; index < notifications.length; index++) {
+                    const element = notifications[index];
+                    if (element._id === skhera._id) {
+                        return null;
+                    }
+                }
+                this.props.notificationSkheraService(skhera);
+            } 
+        })
+    }
+    setLocation = () => {
+        if (this.props.isGeolocationEnabled && this.props.coords && (this.props.coords.latitude.toPrecision(4) !== this.props.location.latitude.toPrecision(4) || this.props.coords.longitude.toPrecision(4) !== this.props.location.longitude.toPrecision(4))) {
+            const { socket } = this.props;
+            socket.emit('location', { location: { longitude: this.props.coords.longitude, latitude: this.props.coords.latitude }, id: this.props.user.id });
+            this.props.addLocation({ longitude: this.props.coords.longitude, latitude: this.props.coords.latitude });
+            this.setState({ longitude: this.props.coords.longitude, latitude: this.props.coords.latitude });
+        }
+    }
+
     render() {
         const { params } = this.props.match;
        
@@ -122,4 +155,12 @@ class Dashboard extends Component {
         )
     }
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(geolocated({
+    positionOptions: {
+        enableHighAccuracy: false,
+    },
+    userDecisionTimeout: 5000,
+})(Dashboard)));
+
+//export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));

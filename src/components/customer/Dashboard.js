@@ -39,7 +39,15 @@ function ButtomRequest() {
 
 class Dashboard extends Component {
     state = { active: 'My Profile', open: false, columns: 3, menus: [{ label: 'My Skhera', url: '/skhera/2/list' }, { label: 'My Profile', url: '/profile/3' }, { label: 'My Address', url: '/profile/3/address' }, { label: 'FAQ', url: '/profile/2/faq' }] }
-    
+    componentDidMount() {
+        const { socket } = this.props;
+        
+        socket.on('accept skhera', ({ idconsumer }) => {
+            if (idconsumer === this.props.user.id) {
+                this.props.addNotification('Your skhera is accepted by Rider');
+            }
+        })
+    }
     render() {
         const { params } = this.props.match;
 
@@ -141,7 +149,7 @@ class Dashboard extends Component {
                                 raised={true}
                                 
                                 style={{
-                                    left: '62%',
+                                    left: '57%',
                                     position: 'absolute',
                                     top: '15%',
                                     zIndex: 1000,
