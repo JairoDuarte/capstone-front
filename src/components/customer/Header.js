@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Menu, Header, Image, Button, Grid, Popup, Icon } from 'semantic-ui-react';
-import { STATUS_ACTIF } from '../../constants'
+import { STATUS_ACTIF, COURSIER_ROLE } from '../../constants'
 let _this = {};
 
 export default class HeaderComponent extends Component {
@@ -81,10 +81,8 @@ export default class HeaderComponent extends Component {
                             </Grid.Column>
                         </Grid>
                     </Popup>
-                </> :
-                <>
-                    <RenderStatus></RenderStatus>
-                </>
+                </> : this.props.user.role === COURSIER_ROLE ? <RenderStatus></RenderStatus>
+                    : <Icon as='i' size='large' color={color} name={name} />
             )
         }
 
