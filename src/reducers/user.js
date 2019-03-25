@@ -6,6 +6,8 @@ export const User = (state = { location: {latitude: 0, longitude: 0}, notificati
             return { ...state, notification: action.payload, open: true };
         case ActionTypes.REMOVE_NOTIFICATION:
             return { ...state, notification: '', open: false};
+        case ActionTypes.ADD_LOCATION:
+            return { ...state, location: action.payload};
         default:
             return state;
     }

@@ -9,7 +9,10 @@ export const Skhera = (state = INITIAL_STATE, action) => {
             return { ...state, skhera: action.payload};
         case ActionTypes.ADD_SKHERA:
             return { ...state, skhera: state.skhera.concat(action.payload)};
-
+        case ActionTypes.NOTIFICATION_SKHERA:
+            return { ...state, notifications: state.notifications.concat(action.payload)};
+        case ActionTypes.NOTIFICATIONS_SKHERA:
+            return { ...state, notifications: action.payload};
         default:
             return state;
     }
