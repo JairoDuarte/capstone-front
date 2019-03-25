@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
-import { Container, Grid, TransitionablePortal, Button, Icon, Segment  } from 'semantic-ui-react';
+import { Container, Grid, TransitionablePortal, Button, Icon, Segment, GridColumn  } from 'semantic-ui-react';
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import Menu from './Menu'
 import Profile from './Profile';
 import { updateUserService, removeNotification, addNotification } from '../../actions/user';
-import { addSkheraService } from '../../actions/skhera';
+import { addSkheraService, getSkheraService } from '../../actions/skhera';
 import RequestSkhera from './RequestSkhera';
+import MySkhera from './MySkhera';
 
 const mapStateToProps = state => {
     return {
         user: state.auth.user,
         notification: state.user.notification,
-        open: state.user.open
+        open: state.user.open,
+        skheras: state.skhera.skheras
     }
 }
 
@@ -21,7 +23,8 @@ const mapDispatchToProps = dispatch => ({
     updateUserService: (user) => dispatch(updateUserService(user)),
     addNotification: (notification) => dispatch(addNotification(notification)),
     removeNotification: () => dispatch(removeNotification()),
-    addSkheraService: (skhera) => dispatch(addSkheraService(skhera))
+    addSkheraService: (skhera) => dispatch(addSkheraService(skhera)),
+    getSkheraService: () => dispatch(getSkheraService())
 
 });
 
@@ -41,7 +44,7 @@ class Dashboard extends Component {
     state = { active: 'My Profile', open: false, columns: 3, menus: [{ label: 'My Skhera', url: '/skhera/2/list' }, { label: 'My Profile', url: '/profile/3' }, { label: 'My Address', url: '/profile/3/address' }, { label: 'FAQ', url: '/profile/2/faq' }] }
     componentDidMount() {
         const { socket } = this.props;
-        
+        this.props.getSkheraService();
         socket.on('accept skhera', ({ idconsumer }) => {
             if (idconsumer === this.props.user.id) {
                 this.props.addNotification('Your skhera is accepted by Rider');
@@ -93,10 +96,14 @@ class Dashboard extends Component {
             }
             else if (this.props.match.params.page === 'list') {
 
-                return (
-                    <>
-                    </>
-                )
+                return (<>
+                    <Grid.Column width={11} textAlign='left' >
+                        <MySkhera  skheras={this.props.skheras}></MySkhera>
+                    </Grid.Column>
+                    <Grid.Column>
+
+                    </Grid.Column>
+                </>)
             }
             else if (this.props.match.params.page === 'address') {
 
@@ -133,13 +140,14 @@ class Dashboard extends Component {
                 )
             }
         }
+        const width = () => params.page === 'add' ? 8 : 4
 
         return (
             <div>
-                <Container style={{ color: 'black', marginBottom: '150px', marginTop: '120px', width: '100%', height: '100%', padding: '0em 0em' }} >
-                    <Grid columns={this.props.match.params.columns} container stackable  >
+                <Container  style={{ color: 'black', marginBottom: '150px', marginTop: '120px', width: '100%', height: '100%', padding: '0em 0em' }} >
+                    <Grid  columns={this.props.match.params.columns} container >
                         <Grid.Row>
-                            <Grid.Column style={{ marginTop: '1.2em' }}>
+                            <Grid.Column width={width()} style={{ marginTop: '1.2em' }}>
                                 <RenderMenu></RenderMenu>
                             </Grid.Column>
                             <RenderComponent></RenderComponent>

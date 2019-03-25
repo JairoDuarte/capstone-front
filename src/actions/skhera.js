@@ -59,3 +59,17 @@ export const addNotificationsSkhera = (notifications) => ({
 })
 
 
+export const getSkheraService = () => async (dispatch) => {
+    try {
+        const response = await api.get(`/api/skhera/`);
+        dispatch(addSkheras(response.data));
+    } catch (e) {
+        console.log(e);
+    }
+    return null;
+}
+
+export const addSkheras = (skheras) => ({
+    type: ActionTypes.ADD_SKHERAS,
+    payload: skheras
+})
