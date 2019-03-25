@@ -14,6 +14,19 @@ export const updateUserService = (user) => async (dispatch) => {
     }
     return null;
 }
+export const updateUserStatus = (status) => async (dispatch) => {
+    try {
+        console.log(status);
+        const response = await api.post(`/api/users/status`, {status: status});
+        localStorage.setItem('user', JSON.stringify(response.data));
+        return dispatch(updateUser(response.data));
+    
+    } catch (e) {
+        console.log(e);
+    }
+    return null;
+}
+
 
 export const updateUser = (user) => ({
 
