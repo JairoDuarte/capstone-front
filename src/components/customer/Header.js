@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Menu, Header, Image, Button, Grid, Popup, Icon } from 'semantic-ui-react';
-import { STATUS_ACTIF, COURSIER_ROLE } from '../../constants'
+import { STATUS_ACTIF, STATUS_INACTIF, COURSIER_ROLE } from '../../constants'
 let _this = {};
 
 export default class HeaderComponent extends Component {
@@ -44,11 +44,11 @@ export default class HeaderComponent extends Component {
         let name = this.props.notifications && this.props.notifications.length === 0 ? 'bell outline' : 'bell';
         const RenderStatus = () => {
             return (this.props.user.status === STATUS_ACTIF ?
-                <Popup on='click' content={<Button onClick={() => this.props.updateUserStatus()} color='grs'
+                <Popup on='click' content={<Button onClick={() => this.props.updateUserStatus(STATUS_INACTIF)} color='grs'
                     content='Inactif' fluid />} trigger={<Icon as='i' size='large' color='green'
                         name='bell' />} wide>
                 </Popup> :
-                <Popup on='click' content={<Button onClick={() => this.props.updateUserStatus()} color='grs'
+                <Popup on='click' content={<Button onClick={() => this.props.updateUserStatus(STATUS_ACTIF)} color='grs'
                     content='Actif' fluid />} trigger={<Icon as='i' size='large'
                         name='bell outline' />} wide>
                 </Popup>

@@ -30,7 +30,7 @@ const mapDispatchToProps = dispatch => ({
   signout: () => dispatch(signout()),
   declineSkheraService: (skhera) => dispatch(declineSkheraService(skhera)),
   acceptSkheraService: (skhera) => dispatch(acceptSkheraService(skhera)),
-  updateUserStatus: () => dispatch(updateUserStatus()) 
+  updateUserStatus: (status) => dispatch(updateUserStatus(status)) 
 });
 
 class Main extends Component {
