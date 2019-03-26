@@ -1,15 +1,24 @@
 import React, { Component } from 'react'
-import { Container, Grid} from 'semantic-ui-react';
+import { Container, Grid, TransitionablePortal, Segment} from 'semantic-ui-react';
 import { withRouter} from 'react-router-dom'
 import { connect } from 'react-redux';
 import Menu from '../customer/Menu'
+import Profile from '../customer/Profile';
+import { updateUserService, addNotification, removeNotification } from '../../actions/user';
 
 const mapStateToProps = state => {
     return {
-        user: state.auth.user
+        user: state.auth.user,
+        notification: state.user.notification,
+        open: state.user.open
     }
 }
 
+const mapDispatchToProps = dispatch => ({
+    updateUserService: (user) => dispatch(updateUserService(user)),
+    addNotification: (notification) => dispatch(addNotification(notification)),
+    removeNotification: () => dispatch(removeNotification())
+});
 
 class Dashboard extends Component {
     state = { active: 'My Profile', columns: 3, menus: [{label: 'Skherat TODO', url: '/dashboard/skhera/2/'},{label: 'My Profile', url: '/dashboard/profile/3'}, {label: 'Statistics', url: '/dashboard/statistics/3/'}, {label: 'FAQ', url: '/dashboard/faq/2/'} ]}
@@ -45,6 +54,7 @@ class Dashboard extends Component {
                 return (
                     <>
                     <Grid.Column textAlign='left'>
+                        <Profile updateUserService={this.props.updateUserService} user={this.props.user}></Profile>
                     </Grid.Column>
                     <Grid.Column>
                     </Grid.Column>
@@ -91,10 +101,25 @@ class Dashboard extends Component {
                             </Grid.Column>
                             <RenderComponent></RenderComponent>
                         </Grid.Row>
+                        <TransitionablePortal transition={{duration: 1000}} onClose={()=> this.props.removeNotification()} open={this.props.open}>
+                            <Segment
+                                raised={true}
+                                
+                                style={{
+                                    left: '62%',
+                                    position: 'absolute',
+                                    top: '15%',
+                                    zIndex: 1000,
+                                }}
+                            >
+                            <h4 style={{ fontWeight: 'normal'  }}>{this.props.notification}</h4>
+
+                            </Segment>
+                        </TransitionablePortal>
                     </Grid>
                 </Container>
             </div>
         )
     }
 }
-export default withRouter(connect(mapStateToProps)(Dashboard));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));
