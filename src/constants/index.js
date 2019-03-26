@@ -13,3 +13,7 @@ export const SIGN_OUT = 'SIGN_OUT';
 export const SIGNUP_RIDER = 'SIGNUP_RIDER';
 export const SIGNUP_CONSUMER = 'SIGNUP_CONSUMER';
 export const UPDATE_USER = 'UPDATE_USER';
+export const STATUS_ACTIF = 'actif';
+export const COURSIER_ROLE = 'rider';
+export const STATUS_INACTIF = 'inactif';
+
