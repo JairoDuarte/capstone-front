@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Grid, TransitionablePortal, Button, Icon, Segment, GridColumn  } from 'semantic-ui-react';
+import { Container, Grid, TransitionablePortal, Button, Icon, Segment  } from 'semantic-ui-react';
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import Menu from './Menu'
@@ -14,7 +14,8 @@ const mapStateToProps = state => {
         user: state.auth.user,
         notification: state.user.notification,
         open: state.user.open,
-        skheras: state.skhera.skheras
+        skheras: state.skhera.skheras,
+        errMess: state.user.errMess,
     }
 }
 
@@ -86,7 +87,7 @@ class Dashboard extends Component {
                 return (
                     <>
                         <Grid.Column textAlign='left'>
-                            <Profile updateUserService={this.props.updateUserService} user={this.props.user}></Profile>
+                            <Profile errMess={this.props.errMess} updateUserService={this.props.updateUserService} user={this.props.user}></Profile>
                         </Grid.Column>
                         <Grid.Column>
                             <ButtomRequest></ButtomRequest>

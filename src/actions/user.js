@@ -3,16 +3,19 @@ import api from '../services/api';
 
 export const updateUserService = (user) => async (dispatch) => {
     try {
+        console.log('update');
         await api.put(`/api/users/${user.id}`, user)
         const response = await api.get('/api/users/me')
         localStorage.setItem('user', JSON.stringify(response.data));
         dispatch(addNotification('Profile Updated'));
         return dispatch(updateUser(response.data));
     
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+       console.log(error.message);
+       console.log(error);
+       return dispatch(errorUser(error.message || 'hello'));
+
     }
-    return null;
 }
 export const updateUserStatus = (status) => async (dispatch) => {
     try {
@@ -21,10 +24,11 @@ export const updateUserStatus = (status) => async (dispatch) => {
         localStorage.setItem('user', JSON.stringify(response.data));
         return dispatch(updateUser(response.data));
     
-    } catch (e) {
-        console.log(e);
+    
+    } catch (error) {
+        console.log(error);
+        return dispatch(errorUser(error.message));
     }
-    return null;
 }
 
 
@@ -45,4 +49,9 @@ export const addNotification = (notification) => ({
 export const removeNotification = () => ({
     type: ActionTypes.REMOVE_NOTIFICATION,
     payload: ''
+})
+
+export const errorUser = (errormess) => ({
+    type: ActionTypes.USER_FAILED,
+    payload: errormess
 })
