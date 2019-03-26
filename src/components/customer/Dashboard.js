@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { Container, Grid, TransitionablePortal, Segment  } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom'
+import { Container, Grid, TransitionablePortal, Button, Icon, Segment  } from 'semantic-ui-react';
+import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import Menu from './Menu'
 import Profile from './Profile';
 import { updateUserService, removeNotification, addNotification } from '../../actions/user';
+import { addSkheraService } from '../../actions/skhera';
+import RequestSkhera from './RequestSkhera';
 
 const mapStateToProps = state => {
     return {
@@ -18,12 +20,34 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     updateUserService: (user) => dispatch(updateUserService(user)),
     addNotification: (notification) => dispatch(addNotification(notification)),
-    removeNotification: () => dispatch(removeNotification())
+    removeNotification: () => dispatch(removeNotification()),
+    addSkheraService: (skhera) => dispatch(addSkheraService(skhera))
+
 });
+
+
+function ButtomRequest() {
+
+    return (
+        <Button as={Link} to='/skhera/2/add' size='huge' color='grs' style={{ textAlign: 'left', width: '252px', marginLeft: '1.7em', padding: '1em 0px' }}>
+            <Icon name='edit outline' size='big' style={{ marginTop: '1em', marginBottom: '1em', marginLeft: '1.0em' }} />
+            <br /><span style={{ padding: '0px 30px', height: '19px', width: '148px', color: '#FFFFFF', fontFamily: 'Ropa Sans', fontSize: '18px', lineheight: '19px', marginBottom: '' }}>  Request Skhera</span>
+            <Icon name='right arrow' style={{ padding: '0px 40px' }} />
+        </Button>
+    )
+}
 
 class Dashboard extends Component {
     state = { active: 'My Profile', open: false, columns: 3, menus: [{ label: 'My Skhera', url: '/skhera/2/list' }, { label: 'My Profile', url: '/profile/3' }, { label: 'My Address', url: '/profile/3/address' }, { label: 'FAQ', url: '/profile/2/faq' }] }
-    
+    componentDidMount() {
+        const { socket } = this.props;
+        
+        socket.on('accept skhera', ({ idconsumer }) => {
+            if (idconsumer === this.props.user.id) {
+                this.props.addNotification('Your skhera is accepted by Rider');
+            }
+        })
+    }
     render() {
         const { params } = this.props.match;
 
@@ -62,6 +86,7 @@ class Dashboard extends Component {
                             <Profile updateUserService={this.props.updateUserService} user={this.props.user}></Profile>
                         </Grid.Column>
                         <Grid.Column>
+                            <ButtomRequest></ButtomRequest>
                         </Grid.Column>
                     </>
                 )
@@ -80,6 +105,7 @@ class Dashboard extends Component {
                         <Grid.Column textAlign='left'>
                         </Grid.Column>
                         <Grid.Column>
+                            <ButtomRequest></ButtomRequest>
                         </Grid.Column>
                     </>
                 )
@@ -100,6 +126,7 @@ class Dashboard extends Component {
                 return (
                     <>
                         <Grid.Column textAlign='left'>
+                            <RequestSkhera addSkheraService={this.props.addSkheraService}></RequestSkhera>
                         </Grid.Column>
 
                     </>
@@ -122,7 +149,7 @@ class Dashboard extends Component {
                                 raised={true}
                                 
                                 style={{
-                                    left: '62%',
+                                    left: '57%',
                                     position: 'absolute',
                                     top: '15%',
                                     zIndex: 1000,
