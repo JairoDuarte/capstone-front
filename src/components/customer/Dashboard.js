@@ -16,6 +16,7 @@ const mapStateToProps = state => {
         open: state.user.open,
         skheras: state.skhera.skheras,
         errMess: state.user.errMess,
+        errMessSkhera: state.skhera.errMess
     }
 }
 
@@ -99,7 +100,7 @@ class Dashboard extends Component {
 
                 return (<>
                     <Grid.Column width={11} textAlign='left' >
-                        <MySkhera  skheras={this.props.skheras}></MySkhera>
+                        <MySkhera getSkheraService={this.props.getSkheraService} errMessSkhera={this.props.errMessSkhera}  skheras={this.props.skheras}></MySkhera>
                     </Grid.Column>
                     <Grid.Column>
 
@@ -134,7 +135,7 @@ class Dashboard extends Component {
                 return (
                     <>
                         <Grid.Column textAlign='left'>
-                            <RequestSkhera addSkheraService={this.props.addSkheraService}></RequestSkhera>
+                            <RequestSkhera errMessSkhera={this.props.errMessSkhera} addSkheraService={this.props.addSkheraService}></RequestSkhera>
                         </Grid.Column>
 
                     </>

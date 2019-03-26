@@ -2,8 +2,7 @@
 import React, { Component } from "react";
 import { withGoogleMap, DirectionsRenderer, GoogleMap, Marker } from "react-google-maps";
 import { Header, Segment, Portal } from 'semantic-ui-react';
-const { MarkerWithLabel } = require("react-google-maps/lib/components/addons/MarkerWithLabel");
-var image = '/assets/icon/directions.svg'
+const image = '/assets/icon/directions.svg'
 const GettingStartedGoogleMap = withGoogleMap(props => (
   <GoogleMap
     ref={props.onMapLoad}

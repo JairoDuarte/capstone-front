@@ -7,11 +7,12 @@ export const addSkheraService = (skhera) => async (dispatch) => {
         const response = await api.post(`/api/skhera/`, skhera);
 
         dispatch(addNotification('Your skhera is Added'));
-        dispatch(addSkhera(response.data));
-    } catch (e) {
-        console.log(e);
+        return dispatch(addSkhera(response.data));
     }
-    return null;
+    catch (error) {
+        console.log(error);
+        return dispatch(errorSkhera(error.message || 'Something went wrong! Retry'));
+    }
 }
 
 export const addSkhera = (skhera) => ({
@@ -19,34 +20,41 @@ export const addSkhera = (skhera) => ({
     payload: skhera
 })
 
-export const notificationSkheraService = (notification) => async (dispatch) =>{
+export const notificationSkheraService = (notification) => async (dispatch) => {
     let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
     notification.date = new Date().getTime();
     notifications.push(notification);
     localStorage.setItem('notifications', JSON.stringify(notifications));
     dispatch(notificationSkhera(notification));
 }
-export const acceptSkheraService = (skhera) => async (dispatch) =>{
+export const acceptSkheraService = (skhera) => async (dispatch) => {
     let notifications = JSON.parse(localStorage.getItem('notifications'));
-    await api.post(`/api/skhera/accept`, {status: true, idSkhera: skhera._id})
-        
-    notifications.splice(notifications.indexOf(skhera), 1);
-    localStorage.setItem('notifications', JSON.stringify(notifications));
-    dispatch(addNotificationsSkhera(notifications));
-}
-export const declineSkheraService = (skhera) => async (dispatch) =>{ 
-    let notifications = JSON.parse(localStorage.getItem('notifications'));
-    console.log(skhera);
-    notifications.splice(notifications.indexOf(skhera), 1);
-    console.log(notifications.length);
-    localStorage.setItem('notifications', JSON.stringify(notifications));
-    dispatch(addNotificationsSkhera(notifications));
     try {
-        await api.post(`/api/skhera/accept`, {status: false, idSkhera: skhera._id})
-    } catch (e) {
-        console.log(e);
+        await api.post(`/api/skhera/accept`, { status: true, idSkhera: skhera._id });
+        notifications.splice(notifications.indexOf(skhera), 1);
+        localStorage.setItem('notifications', JSON.stringify(notifications));
+        dispatch(addNotificationsSkhera(notifications));
     }
-    
+    catch (error) {
+        console.log(error);
+        return dispatch(errorSkhera(error.message || 'Something went wrong! Retry'));
+    }
+
+}
+export const declineSkheraService = (skhera) => async (dispatch) => {
+    try {
+        await api.post(`/api/skhera/accept`, { status: false, idSkhera: skhera._id });
+        let notifications = JSON.parse(localStorage.getItem('notifications'));
+        notifications.splice(notifications.indexOf(skhera), 1);
+        localStorage.setItem('notifications', JSON.stringify(notifications));
+        dispatch(addNotificationsSkhera(notifications));
+
+    } 
+    catch (error) {
+        console.log(error);
+        return dispatch(errorSkhera(error.message || 'Something went wrong! Retry'));
+    }
+
 }
 
 export const notificationSkhera = (notification) => ({
@@ -61,15 +69,22 @@ export const addNotificationsSkhera = (notifications) => ({
 
 export const getSkheraService = () => async (dispatch) => {
     try {
+        console.log('get');
         const response = await api.get(`/api/skhera/`);
         dispatch(addSkheras(response.data));
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.log(error);
+        return dispatch(errorSkhera(error.message || 'Something went wrong! Retry'));
     }
-    return null;
 }
 
 export const addSkheras = (skheras) => ({
     type: ActionTypes.ADD_SKHERAS,
     payload: skheras
+})
+
+
+export const errorSkhera = (errormess) => ({
+    type: ActionTypes.SKHERA_FAILED,
+    payload: errormess
 })
