@@ -61,25 +61,27 @@ export default  class Login extends Component {
 
     render() {
         return (
-            <Container text>
+            <Container textAlign='center' text>
 
                 <Header
                     as='h2'
+                    textAlign='center'
                     content='An on demand service that picks-up anything you requested through the app and delivers it to your door within one hour. '
                     inverted
-                    style={{
-                        fontWeight: 'normal', height: '80px', width: '798px', color: '#FFFFFF', fontFamily: "'Ropa Sans', sans-serif", fontSize: '34px', lineHeight: '40px', textAlign: 'center',
-                        marginTop: this.props.mobile ? '0.5em' : '12.5em',
+                    style={{ marginLeft: this.props.mobile ? '3em' : '-1em',
+                        fontWeight: 'normal', height: this.props.mobile ? '120px' : '80px', width: this.props.mobile ? '274px' : '798px', color: '#FFFFFF', fontFamily: "'Ropa Sans', sans-serif", fontSize: this.props.mobile ? '20px' : '34px', lineHeight: '40px',
+                        marginTop: this.props.mobile ? '243px' : '12.5em',
                     }}
                 />
-                <Button onClick={this.closeConfigShow('consumer')} size='huge' color='grs' style={{ marginLeft: '1.7em', padding: '16px 35px' }}>
+                <Button onClick={this.closeConfigShow('consumer')} size='huge' color='grs' style={{ marginTop: this.props.mobile ? '53px' : '', marginLeft: '1.0em', height: '55px', width: '300px'  }}>
                     <Icon name='home' />
-                    <span style={{ padding: '0px 30px', height: '19px', width: '148px', color: '#FFFFFF', fontFamily: 'Ropa Sans', fontSize: '18px', lineheight: '19px' }}>Signup as a Consumer</span>
+                    <span style={{ height: '19px', width: '148px', color: '#FFFFFF', fontFamily: 'Ropa Sans', fontSize: '18px', lineheight: '19px' }}>Signup as a Consumer</span>
                     <Icon name='right arrow' />
                 </Button>
-                <Button onClick={this.closeConfigShow('rider')} size='huge' color='grl' primary={false} as='a' style={{ marginRight: '0.0em', marginLeft: '1.0em', padding: '16px 35px' }}>
+                {this.props.mobile ? <div><br/></div> : ''}
+                <Button onClick={this.closeConfigShow('rider')} size='huge' color='grl' primary={false} as='a' style={{ marginLeft: '1.0em', height: '55px', width: '300px'}}>
                     <Icon name='motorcycle' />
-                    <span style={{ padding: '0px 30px', height: '19px', width: '116px', color: '#000000;', fontFamily: 'Ropa Sans', fontSize: '18px', lineheight: '19px' }}>Signup as a Rider</span>
+                    <span style={{ height: '19px', width: '148px', color: '#000000;', fontFamily: 'Ropa Sans', fontSize: '18px', lineheight: '19px' }}>Signup as a Rider</span>
                     <Icon name='right arrow' />
                 </Button>
                 <Modal
