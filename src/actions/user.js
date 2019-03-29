@@ -3,7 +3,7 @@ import api from '../services/api';
 
 export const updateUserService = (user) => async (dispatch) => {
     try {
-        console.log('update');
+
         await api.put(`/api/users/${user.id}`, user)
         const response = await api.get('/api/users/me')
         localStorage.setItem('user', JSON.stringify(response.data));
@@ -11,9 +11,8 @@ export const updateUserService = (user) => async (dispatch) => {
         return dispatch(updateUser(response.data));
     
     } catch (error) {
-       console.log(error.message);
        console.log(error);
-       return dispatch(errorUser(error.message || 'hello'));
+       return dispatch(errorUser(error.message || 'Something went wrong! Retry'));
 
     }
 }
@@ -27,7 +26,7 @@ export const updateUserStatus = (status) => async (dispatch) => {
     
     } catch (error) {
         console.log(error);
-        return dispatch(errorUser(error.message));
+        return dispatch(errorUser(error.message || 'Something went wrong! Retry'));
     }
 }
 
