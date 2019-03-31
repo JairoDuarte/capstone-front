@@ -16,4 +16,7 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const STATUS_ACTIF = 'actif';
 export const COURSIER_ROLE = 'rider';
 export const STATUS_INACTIF = 'inactif';
+export const AUTH_FAILED = 'AUTH_FAILED';
+export const SKHERA_FAILED = 'SKHERA_FAILED';
+export const USER_FAILED = 'USER_FAILED';
 

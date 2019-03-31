@@ -1,11 +1,16 @@
 import React from 'react';
 import {Grid, Header, Image } from 'semantic-ui-react';
 import UpdateUserForm from './UpdateUserForm';
+import ErrorMessage from '../ErrorMessage';
 
 export default  function Profile (props)  {
 
     return (
         <>
+        {props.errMess ? 
+            <ErrorMessage header={props.errMess} message= 'Retry the update' ></ErrorMessage> :
+            <></>
+        }
         <Grid columns={2} stackable style={{ marginBottom: '3.2em' }} >
             <Grid.Row>
                 <Grid.Column>

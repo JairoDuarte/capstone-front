@@ -23,7 +23,8 @@ const mapStateToProps = state => {
     user: state.auth.user,
     isAuthenticated: state.auth.isAuthenticated,
     token: state.auth.token,
-    notifications: state.skhera.notifications
+    notifications: state.skhera.notifications,
+    errMess: state.auth.errMess,
   }
 }
 const mapDispatchToProps = dispatch => ({
@@ -46,6 +47,7 @@ class Main extends Component {
       
       return this.props.isAuthenticated ? (
         <HeaderCustomer 
+        errMess={this.props.errMess}
         updateUserStatus={this.props.updateUserStatus}
         acceptSkheraService={this.props.acceptSkheraService}
         declineSkheraService={this.props.declineSkheraService}
@@ -53,7 +55,8 @@ class Main extends Component {
         signout={this.props.signout}
         user={this.props.user}/>
       ) :
-      <HeaderHome socket={socket}></HeaderHome>
+      <HeaderHome 
+      errMess={this.props.errMess} socket={socket}></HeaderHome>
     };
     const PrivateRoute = ({ component: Component, roles, ...rest }) => (
       <Route {...rest} render={(props) => (

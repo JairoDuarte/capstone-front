@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { DateTimeInput } from 'semantic-ui-calendar-react';
-import PlacesAutocomplete, { geocodeByAddress,getLatLng } from 'react-places-autocomplete';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { Icon, Grid, Form, Input, TextArea, Button, Select, Header } from 'semantic-ui-react';
 import Map from './Map';
 import api from '../../services/api';
+import ErrorMessage from '../ErrorMessage';
 
 let deliverOptions = [
     { key: 1, text: 'ASAP', value: 'ASAP' },
@@ -11,7 +12,7 @@ let deliverOptions = [
     { key: 3, text: '4-hour', value: '4-hour' },
 ]
 
-const getCoordinates = async address =>{
+const getCoordinates = async address => {
     try {
         let responce = await geocodeByAddress(address);
         let coordinates = await getLatLng(responce[0]);
@@ -43,8 +44,8 @@ export default class RequestSkhera extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            from: { text: '', coordinates: [0,0]},
-            to: { text: '', coordinates: [0,0]},
+            from: { text: '', coordinates: [0, 0] },
+            to: { text: '', coordinates: [0, 0] },
             description: '',
             deliver: '',
             price: '',
@@ -104,32 +105,35 @@ export default class RequestSkhera extends Component {
             let fromCoordinates = await getCoordinates(this.state.addressFrom);
             let toCoordinates = await getCoordinates(this.state.addressTo);
             this.setState({
-                from: { text: this.state.addressFrom, coordinates: [fromCoordinates.lat, fromCoordinates.lng]},
-                to: { text: this.state.addressTo, coordinates: [toCoordinates.lat, toCoordinates.lng]},
+                from: { text: this.state.addressFrom, coordinates: [fromCoordinates.lat, fromCoordinates.lng] },
+                to: { text: this.state.addressTo, coordinates: [toCoordinates.lat, toCoordinates.lng] },
             })
         }
     }
-    setDistance = async (distance) =>{
+    setDistance = async (distance) => {
         let price = this.state.price.split('-');
         price = parseFloat(price[1]);
         try {
-            const response = this.state.price ? await api.post(`/api/skhera/price`, {distance: distance, to: price, deliver: this.state.deliver}) : {};
+            const response = this.state.price ? await api.post(`/api/skhera/price`, { distance: distance, to: price, deliver: this.state.deliver }) : {};
             price = response.data.price ? response.data.price : 0;
-            this.setState({estimatedprice: price})
+            this.setState({ estimatedprice: price })
         } catch (e) {
-            console.log(e);    
+            console.log(e);
         }
     }
 
     render() {
-        
+
         return (
             <>
                 <Grid style={{ color: "#909090", fontFamily: "Ropa Sans", marginTop: '-7em', marginLeft: '-20em', fontSize: "16px", fontWeight: "normal", }}>
-
+                    {this.props.errMessSkhera ?
+                        <ErrorMessage header={this.props.errMessSkhera} message='Retry your request' ></ErrorMessage> :
+                        <></>
+                    }
                     <Header textAlign='left' as='h1' style={{ fontSize: "44px", fontWeight: 'normal', color: '#000000', fontFamily: "Ropa Sans", textAlign: 'left', minWidth: '100%', marginLeft: '0em', }}>Request a skhera</Header>
                     <Grid.Column width={8} style={{}}>
-                        <Form  style={{
+                        <Form style={{
                             color: "#909090",
                             fontFamily: "Ropa Sans",
                             marginLeft: '0em',
@@ -139,7 +143,7 @@ export default class RequestSkhera extends Component {
 
                             <Form.Field>
                                 <label style={{ color: '#909090', fontFamily: "Ropa Sans", fontSize: '16px', fontWeight: 'normal', }}>Describe your skhera</label>
-                                <TextArea onChange={this.handleInputChange} name='description' value={this.state.description}  placeholder='Text here' />
+                                <TextArea onChange={this.handleInputChange} name='description' value={this.state.description} placeholder='Text here' />
                             </Form.Field>
                             <Form.Field>
                                 <label style={{ color: '#909090', fontFamily: "Ropa Sans", fontSize: '16px', fontWeight: 'normal' }}>Describe your skhera</label>
@@ -169,17 +173,20 @@ export default class RequestSkhera extends Component {
                                 <label style={{ color: '#909090', fontFamily: "Ropa Sans", fontSize: '16px', fontWeight: 'normal', }}>Describe your skhera</label>
                                 <Input onChange={this.handleInputChange} value={this.state.price} name="price" icon='dollar sign' id='phone' iconPosition='left' placeholder='100dh-200dh' />
                             </Form.Field>
-                            <Form.Button onClick={()=>this.handleSubmit()} type="submit" color='grs' style={{ marginTop: '1em', marginLeft: '0em', width: '100%', height: '' }} disabled={!this.state.price || this.state.items.length < 1 || !this.state.description || !this.state.deliver || !this.state.price || !this.state.schedule || !this.state.to.text || !this.state.from.text}>Order Now</Form.Button>
+                            <Form.Button onClick={() => this.handleSubmit()} type="submit" color='grs' style={{ marginTop: '1em', marginLeft: '0em', width: '100%', height: '' }} disabled={!this.state.price || this.state.items.length < 1 || !this.state.description || !this.state.deliver || !this.state.price || !this.state.schedule || !this.state.to.text || !this.state.from.text}>Order Now</Form.Button>
 
                         </Form>
                     </Grid.Column>
                     <Grid.Column width={8}>
                         <Form style={{ marginBottom: '1em' }}>
-                            <PlacesAutocomplete value={this.state.addressFrom} onChange={(addressFrom)=> this.setState({addressFrom})} onSelect={this.handleSelectAddress}>
+
+                            <PlacesAutocomplete style={{ color: '#909090', fontFamily: "Ropa Sans", fontSize: '16px', fontWeight: 'normal' }} value={this.state.addressFrom} onChange={(addressFrom) => this.setState({ addressFrom })} onSelect={this.handleSelectAddress}>
                                 {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                     <div>
                                         <Form.Field>
-                                            <Input {...getInputProps({ placeholder: '3416 Tenmile Road, Waltham, Massachusetts, 3 floor ...', className: 'location-search-input', })} label={{ content: 'From', basic: true }} />
+                                            <label style={{ marginBottom: '-1em', color: '#909090', fontFamily: "Ropa Sans", fontSize: '16px', fontWeight: 'normal' }}>Address</label>    <br />
+
+                                            <Input  {...getInputProps({ placeholder: '3416 Tenmile Road, Waltham, Massachusetts, 3 floor ...', className: 'location-search-input', })} label={{ content: 'From', basic: true }} />
                                         </Form.Field>
                                         <div className="autocomplete-dropdown-container">
                                             {loading && <div>Loading...</div>}
@@ -187,7 +194,6 @@ export default class RequestSkhera extends Component {
                                                 const className = suggestion.active
                                                     ? 'suggestion-item--active'
                                                     : 'suggestion-item';
-                                                // inline style for demonstration purpose
                                                 const style = suggestion.active
                                                     ? { backgroundColor: '#fafafa', cursor: 'pointer' }
                                                     : { backgroundColor: '#ffffff', cursor: 'pointer' };
@@ -206,7 +212,7 @@ export default class RequestSkhera extends Component {
                                     </div>
                                 )}
                             </PlacesAutocomplete>
-                            <PlacesAutocomplete value={this.state.addressTo} onChange={(addressTo)=> this.setState({addressTo})} onSelect={this.handleSelectAddress}>
+                            <PlacesAutocomplete value={this.state.addressTo} onChange={(addressTo) => this.setState({ addressTo })} onSelect={this.handleSelectAddress}>
                                 {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                                     <div>
                                         <Form.Field>
@@ -236,13 +242,13 @@ export default class RequestSkhera extends Component {
                                     </div>
                                 )}
                             </PlacesAutocomplete>
-                            
+
                             {!this.state.price || this.state.items.length < 1 || !this.state.description || !this.state.deliver || !this.state.price || !this.state.schedule || !this.state.to.text || !this.state.from.text
                                 ? <></>
                                 : <Map setDistance={this.setDistance} estimatedprice={this.state.estimatedprice} from={this.state.from} to={this.state.to}></Map>
                             }
                         </Form>
-  
+
                     </Grid.Column>
                 </Grid>
             </>
