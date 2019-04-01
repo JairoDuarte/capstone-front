@@ -32,14 +32,16 @@ class MobileContainer extends Component {
         <Segment
           inverted
           textAlign='center'
-          style={{ minHeight: 350, padding: '1em 0em', backgroundImage: `url('assets/images/jibleecover.png')` }}
+          style={{ minHeight: '640px', width: '100%',backgroundPosition: '50% 25%', padding: '0em 0em', backgroundImage: `url('assets/images/jibleecover.png')` }}
           vertical
         >
           <Container>
             <Menu inverted pointing secondary size='large'>
-              <Menu.Item> <img alt='logo' style={{ height: '100px', width: '200px' }} src='assets/images/reverselogo.png' /> </Menu.Item>
+              <Menu.Item> <img alt='logo' style={{ height: '33px', width: '73px' }} src='/assets/images/Logo_Jible White.png' /> </Menu.Item>
             </Menu>
           </Container>
+
+          <HomepageHeading mobile signin={this.props.signin} socket={this.props.socket} ></HomepageHeading>
         </Segment>
 
       </Responsive>
@@ -119,7 +121,7 @@ class HeaderComponent extends Component {
     return (
       <div>
         <DesktopContainer signin={this.props.signin} socket={this.props.socket} ></DesktopContainer>
-        <MobileContainer></MobileContainer>
+        <MobileContainer signin={this.props.signin} socket={this.props.socket}></MobileContainer>
       </div>
     )
   }

@@ -60,26 +60,27 @@ export default  class Login extends Component {
     close = () => this.setState({ open: false, role: '' })
 
     render() {
+        const { mobile } = this.props;
+
         return (
             <Container textAlign='center' text>
 
                 <Header
                     as='h2'
                     textAlign='center'
-                    content='An on demand service that picks-up anything you requested through the app and delivers it to your door within one hour. '
-                    inverted
-                    style={{ marginLeft: this.props.mobile ? '3em' : '-1em',
-                        fontWeight: 'normal', height: this.props.mobile ? '120px' : '80px', width: this.props.mobile ? '274px' : '798px', color: '#FFFFFF', fontFamily: "'Ropa Sans', sans-serif", fontSize: this.props.mobile ? '20px' : '34px', lineHeight: '40px',
-                        marginTop: this.props.mobile ? '243px' : '12.5em',
+                    content='An on demand service that picks-up anything you requested through the app and delivers it to your door within one hour.'
+                    style={{ marginLeft: mobile ? '1em' : '-1em',
+                        fontWeight: 'normal', height: mobile ? '120px' : '80px', width: mobile ? '90%' : '798px', color: '#FFFFFF', fontFamily: "'Ropa Sans', sans-serif", fontSize: mobile ? '23px' : '34px', lineHeight: '40px',
+                        marginTop: mobile ? '243px' : '12.5em',
                     }}
                 />
-                <Button onClick={this.closeConfigShow('consumer')} size='huge' color='grs' style={{ marginTop: this.props.mobile ? '53px' : '', marginLeft: '1.0em', height: '55px', width: '300px'  }}>
+                <Button onClick={this.closeConfigShow('consumer')} size='huge' color='grs' style={{ marginTop: mobile ? '53px' : '', marginLeft: mobile ? '0em' : '1.0em', height:  '55px', width: mobile ? '90%' : '300px'  }}>
                     <Icon name='home' />
                     <span style={{ height: '19px', width: '148px', color: '#FFFFFF', fontFamily: 'Ropa Sans', fontSize: '18px', lineheight: '19px' }}>Signup as a Consumer</span>
                     <Icon name='right arrow' />
                 </Button>
-                {this.props.mobile ? <div><br/></div> : ''}
-                <Button onClick={this.closeConfigShow('rider')} size='huge' color='grl' primary={false} as='a' style={{ marginLeft: '1.0em', height: '55px', width: '300px'}}>
+                {mobile ? <div><br/></div> : ''}
+                <Button onClick={this.closeConfigShow('rider')} size='huge' color='grl' primary={false} as='a' style={{ marginLeft: mobile ? '0em' : '1.0em', height: '55px', width: mobile ? '90%' : '300px'}}>
                     <Icon name='motorcycle' />
                     <span style={{ height: '19px', width: '148px', color: '#000000;', fontFamily: 'Ropa Sans', fontSize: '18px', lineheight: '19px' }}>Signup as a Rider</span>
                     <Icon name='right arrow' />
@@ -88,14 +89,14 @@ export default  class Login extends Component {
                     open={this.state.open}
                     onClose={this.close}
                     size='tiny'
-                    closeIcon
+                    style={{width: mobile ? '75%' : ''}}
                 >
                     <Modal.Content>
                         <p style={{ marginTop: '3em' }}></p>
-                        <span style={{ marginTop: '10em', marginLeft: '3em', height: '37px', width: '72px', fontSize: '34px' }}>Login</span>
-                        <p style={{ color: '#909090', marginLeft: '6.4em', height: '17px', width: '157px', fontSize: '16px' }}>Welcome To Jible Services</p>
-                        <Button onClick={() => this.startAuth()}  size='huge' color='facebook' primary={false} as='a' style={{ marginBottom: '2em', marginTop: '1em', marginRight: '0.0em', marginLeft: '5em', padding: '16px 35px' }}>
-                            <span style={{ padding: '0px 30px', height: '19px', width: '116px', color: '#000000;', fontFamily: 'Ropa Sans', fontSize: '23px', fontWeight: 'normal', lineheight: '19px' }}>Login with Facebook</span>
+                        <span style={{ marginTop: '10em', marginLeft: mobile ? '0.5em' : '3em', height: '37px', width: '72px', fontSize: '34px' }}>Login</span>
+                        <p style={{ color: '#909090', marginLeft: mobile ? '1em' : '6.4em', height: '17px', width: '157px', fontSize: '16px' }}>Welcome To Jible Services</p>
+                        <Button onClick={() => this.startAuth()}  size='huge' color='facebook' primary={false} as='a' style={{ marginBottom: '2em', marginTop: '1em', marginLeft: mobile ? '1em' : '5em' }}>
+                            <span style={{ height: '19px', width: '116px', color: '#000000;', fontFamily: 'Ropa Sans', fontSize: '23px', fontWeight: 'normal', lineheight: '19px' }}>Login with Facebook</span>
                         </Button>
 
                     </Modal.Content>

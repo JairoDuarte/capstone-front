@@ -12,11 +12,20 @@ import { baseUrl } from '../services/baseUrl';
 import {signout} from '../actions/auth'
 import { acceptSkheraService, declineSkheraService } from '../actions/skhera';
 import { updateUserStatus } from '../actions/user'
+import {
+  Responsive,
+} from 'semantic-ui-react'
+
 
 const socket = io.connect(baseUrl);
 export const CUSTOMER_ROLE = 'consumer';
 export const COURSIER_ROLE = 'rider';
 
+const getWidth = () => {
+  const isSSR = typeof window === 'undefined'
+
+  return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
+}
 
 const mapStateToProps = state => {
   return {
@@ -38,9 +47,9 @@ class Main extends Component {
 
   render() {
     
-    const HomePage = () => {
+    const HomePage = (props) => {
       return (
-        <Home></Home>
+        <Home {...props}></Home>
       )
     };
     const Header = () => {
@@ -58,19 +67,19 @@ class Main extends Component {
       <HeaderHome 
       errMess={this.props.errMess} socket={socket}></HeaderHome>
     };
-    const PrivateRoute = ({ component: Component, roles, ...rest }) => (
+    const PrivateRoute = ({ component: Component, roles, mobile=false, ...rest }) => (
       <Route {...rest} render={(props) => (
         this.props.isAuthenticated && !!~roles.indexOf(this.props.user.role)
-          ? <Component socket={socket} {...props} />
+          ? <Component mobile={mobile} socket={socket} {...props} />
           : <Redirect to={{
               pathname: '/',
               state: { from: props.location }
             }} />
       )} />)
-      const LoginRoute = ({ component: Component, ...rest }) => (
-        <Route {...rest} render={(props) => (
+      const LoginRoute = ({ component: Component, mobile = false, ...rest }) => (
+        <Route  {...rest} render={(props) => (
           !this.props.isAuthenticated 
-            ? <Component {...props} />
+            ? <Component mobile={mobile} {...props} />
             : this.props.user.role ===  CUSTOMER_ROLE ? 
               <Redirect to={{ pathname: '/profile/3', state: { from: props.location }}} />
               : <Redirect to={{ pathname: '/dashboard/profile/3', state: { from: props.location }}} />
@@ -79,6 +88,8 @@ class Main extends Component {
 
     return (
       <div>
+      <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
+      
         <Header />
         <Switch>
           <LoginRoute exact path="/home" component={HomePage} />
@@ -94,6 +105,25 @@ class Main extends Component {
           <Redirect to="/home" />
         </Switch>
         <Footer/>
+        </Responsive>
+        <Responsive getWidth={getWidth} maxWidth={Responsive.onlyMobile.maxWidth}>
+      
+        <Header />
+        <Switch>
+          <LoginRoute exact path="/home" component={HomePage} mobile />
+          <Route exact  path='/about' component={()=> <h1>about</h1>} />
+          <Route mobile path='/terms' component={()=> <h1>Terms</h1>} />
+          <PrivateRoute exact path='/profile/:columns' roles={[CUSTOMER_ROLE]} component={Dashboard} />
+          <PrivateRoute path='/profile/:columns/:page' roles={[CUSTOMER_ROLE]} component={Dashboard} />
+          <PrivateRoute path='/skhera/:columns/:page' roles={[CUSTOMER_ROLE]}  component={Dashboard} />
+
+          <PrivateRoute exact path='/dashboard/:page/:columns' roles={[COURSIER_ROLE]} component={RiderDashBoard} />
+          <PrivateRoute path='/dashboard/:page/:columns/' roles={[COURSIER_ROLE]} component={RiderDashBoard} />
+          <PrivateRoute path='/dashboard/:page/:columns/' roles={[COURSIER_ROLE]}  component={RiderDashBoard} />
+          <Redirect to="/home" />
+        </Switch>
+        <Footer mobile/>
+        </Responsive>
       </div>
     );
   }
