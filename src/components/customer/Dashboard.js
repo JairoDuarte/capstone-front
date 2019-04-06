@@ -37,7 +37,8 @@ function ButtomRequest() {
         <Button as={Link} to='/skhera/2/add' size='huge' color='grs' style={{ textAlign: 'left', width: '252px', marginLeft: '1.7em', padding: '1em 0px' }}>
             <Icon name='edit outline' size='big' style={{ marginTop: '1em', marginBottom: '1em', marginLeft: '1.0em' }} />
             <br /><span style={{ padding: '0px 30px', height: '19px', width: '148px', color: '#FFFFFF', fontFamily: 'Ropa Sans', fontSize: '18px', lineheight: '19px', marginBottom: '' }}>  Request Skhera</span>
-            <Icon name='right arrow' style={{ padding: '0px 40px' }} />
+            <span style={{float: 'right', fontWeight: 'normal',  }}> <Icon name='right arrow' style={{ marginRight: '10px', padding: '0px 0px' }} />
+            </span>
         </Button>
     )
 }
