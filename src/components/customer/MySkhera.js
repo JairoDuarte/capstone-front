@@ -11,8 +11,9 @@ const RenderItems = ({ items }) => items.map(item => (
 ))
 
 export default class MySkhera extends Component {
+  
   state = { value: 0, previous: 0, from: { text: '', coordinates: [33.9954189, -6.85002289999999] }, to: { text: '', coordinates: [33.9933499, -6.848500899999976] } };
-
+  
   render() {
     const statusActive = status => {
       if (status === STATUS_DELIVERED)

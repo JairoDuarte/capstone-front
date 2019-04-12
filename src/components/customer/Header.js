@@ -198,7 +198,7 @@ export default class HeaderComponent extends Component {
                         <Menu color='grs' vertical secondary size='large'>
 
                             <Menu.Item style={{ marginTop: '3em', marginBottom: '2.5em' }}>
-                                <Header style={{ marginLeft: '-4em' }}><Image circular src={this.props.user.image} />
+                                <Header style={{ marginLeft: '-4em' }}><Image alt='user' circular src={this.props.user.image} />
                                     <span style={{ padding: '0px 8px', height: '17px', width: '73px', color: '#FFFF', fontWeight: 'normal', fontFamily: 'Ropa Sans', fontSize: '18px', lineheight: '17px' }}>{this.props.user.fullname}</span>
                                 </Header>
                             </Menu.Item>

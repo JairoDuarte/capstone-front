@@ -28,7 +28,7 @@ export default class Home extends Component {
                   <p style={{ fontSize: '18px', marginLeft: mobile ? '' : '1em' }}>Choosing A Quality Cookware Set </p>
                 </Header>
                 {mobile ? '' :
-                <Image style={{marginTop: '15em',marginBottom: '0em'}}  rounded size='large' src='assets/images/app.png' />
+                <Image style={{marginTop: '15em',marginBottom: '0em'}} alt='app'  rounded size='large' src='assets/images/app.png' />
                 }
 
               </Grid.Column>
@@ -47,8 +47,8 @@ export default class Home extends Component {
                   Track your deliveries<br/> with the Jible App
                 </Header>
                 <Header textAlign={mobile ? 'center' : 'left'}  style={{marginBottom: mobile ? '0px' : '150px', marginTop: '0px'}}>
-                  <Image href='http://google.com' style={{height: '57px',	width: '168px'}} src='assets/images/google.png'></Image>
-                  <Image href='http://google.com' style={{marginLeft:'1.0em', height: '57px',	width: '168px'}} src='assets/images/apple.png'></Image>
+                  <Image alt='google' href='http://google.com' style={{height: '57px',	width: '168px'}} src='assets/images/google.png'></Image>
+                  <Image alt='apple' href='http://apple.com' style={{marginLeft:'1.0em', height: '57px',	width: '168px'}} src='assets/images/apple.png'></Image>
                 
                 </Header>
                 {!mobile ? '' :
