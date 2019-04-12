@@ -1,7 +1,46 @@
 import React, { Component } from 'react';
 import { Container, Menu, Header, Image, Button, Grid, Popup, Icon } from 'semantic-ui-react';
 import { STATUS_ACTIF, STATUS_INACTIF, COURSIER_ROLE } from '../../constants'
+import { Sidebar, Responsive, Segment, Visibility } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+
 let _this = {};
+
+class MobileContainer extends Component {
+    state = {}
+
+    handleSidebarHide = () => this.setState({ sidebarOpened: false })
+
+    handleToggle = () => this.setState({ sidebarOpened: true })
+
+    render() {
+
+        return (
+            <Responsive
+                getWidth={window.innerWidth}
+                maxWidth={Responsive.onlyMobile.maxWidth}
+            >
+                <Segment
+                    inverted
+                    textAlign='center'
+                    style={{ minHeight: '640px', width: '100%', backgroundPosition: '50% 25%', padding: '0em 0em', backgroundImage: `url('assets/images/jibleecover.png')` }}
+                    vertical
+                >
+                    <Container>
+                        <Menu inverted pointing secondary size='large'>
+                            <Menu.Item> <img alt='logo' style={{ height: '33px', width: '73px' }} src='/assets/images/Logo_Jible White.png' /> </Menu.Item>
+                        </Menu>
+                    </Container>
+
+                </Segment>
+
+            </Responsive>
+        )
+    }
+}
+
+
+
 
 export default class HeaderComponent extends Component {
     state = { open: false, min: 0, sec: 0, latitude: 0, longitude: 0 }
@@ -37,6 +76,12 @@ export default class HeaderComponent extends Component {
         else {
             this.setState({ sec: 0, min: 0 })
         }
+    }
+    handleSidebarHide = () => this.setState({ sidebarOpened: false })
+
+    handleToggle = () => this.setState({ sidebarOpened: true })
+    setcolor = name => {
+        return name === this.props.menuActive ? 'pink' : 'grs';
     }
 
     render() {
@@ -85,27 +130,89 @@ export default class HeaderComponent extends Component {
                     : <Icon as='i' size='large' color={color} name={name} />
             )
         }
+        const MenuRender = () => {
+            return this.props.menus.map(item => {
+                return (
+                    <>
+                        <Menu.Item style={{ marginRight: '0.0em', marginLeft: '0.0em', padding: '0px 0px' }} >
+                            <Button onClick={() => this.props.setMenu(item.label)} color={this.setcolor(item.label)} primary={false} as={Link} to={item.url} style={{ fontWeight: 'normal', textAlign: 'left', width: '212px', fontFamily: 'Ropa Sans', marginLeft: '0em', padding: '1.4em 2em' }}>
+                                <span>{item.label}</span>
+                            </Button>
+                        </Menu.Item>
+                    </>
+                )
+            })
+        }
+        const { sidebarOpened } = this.state
 
         return (
-            <Menu secondary borderless={false} size='large'>
-                <Container style={{ marginTop: '2em', marginBottom: '49px' }}>
-                    <Menu.Item> <Image href="/" alt='logo' style={{ height: '36px', width: '112px' }} src='/assets/images/Logo_Jible.png' /> </Menu.Item>
-                    <Menu.Menu position='right' >
-                        <Menu.Item>
+            <>
+                <Responsive getWidth={this.props.getWidth} minWidth={Responsive.onlyTablet.minWidth}>
+
+                    <Menu secondary borderless={false} size='large'>
+                        <Container style={{ marginTop: '2em', marginBottom: '49px' }}>
+                            <Menu.Item> <Image href="/" alt='logo' style={{ height: '36px', width: '112px' }} src='/assets/images/Logo_Jible.png' /> </Menu.Item>
+                            <Menu.Menu position='right' >
+                                <Menu.Item>
+                                    <RenderNotification></RenderNotification>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <Header as='h3'>
+                                        <Popup on='click' content={<Button onClick={() => this.props.signout()} color='grs' content='Sign out' fluid />} trigger={<Image circular src={this.props.user.image} />} wide>
+                                        </Popup>
+                                        <span style={{ padding: '0px 8px', height: '17px', width: '73px', color: '#000000', fontWeight: 'normal', fontFamily: 'Ropa Sans', fontSize: '16px', lineheight: '17px' }}>{this.props.user.fullname}</span>
+                                    </Header>
+                                </Menu.Item>
+
+
+                            </Menu.Menu>
+                        </Container>
+                    </Menu>
+                </Responsive>
+                <Responsive
+
+                    getWidth={this.props.getWidth}
+                    maxWidth={Responsive.onlyMobile.maxWidth}
+                >
+                    <Menu color='grs' secondary size='large'>
+                        <Menu.Item >
+                            <Image href="/" alt='logo' style={{ height: '36px', width: '112px' }} src='/assets/images/Logo_Jible.png' />
+                        </Menu.Item>
+                        <Menu.Item position='right'>
                             <RenderNotification></RenderNotification>
+                            <Icon onClick={this.handleToggle} name='sidebar' />
                         </Menu.Item>
-                        <Menu.Item>
-                            <Header as='h3'>
-                                <Popup on='click' content={<Button onClick={() => this.props.signout()} color='grs' content='Sign out' fluid />} trigger={<Image circular src={this.props.user.image} />} wide>
-                                </Popup>
-                                <span style={{ padding: '0px 8px', height: '17px', width: '73px', color: '#000000', fontWeight: 'normal', fontFamily: 'Ropa Sans', fontSize: '16px', lineheight: '17px' }}>{this.props.user.fullname}</span>
-                            </Header>
-                        </Menu.Item>
+                    </Menu>
 
+                    <Sidebar
+                        color='grs'
+                        as={Menu}
+                        animation='push'
+                        onHide={this.handleSidebarHide}
+                        vertical
+                        visible={sidebarOpened}
+                        direction='right'
+                        style={{ backgroundColor: 'grs' }}
+                        className='mobile'
+                    >
+                        <Menu color='grs' vertical secondary size='large'>
 
-                    </Menu.Menu>
-                </Container>
-            </Menu>
+                            <Menu.Item style={{ marginTop: '3em', marginBottom: '2.5em' }}>
+                                <Header style={{ marginLeft: '-4em' }}><Image circular src={this.props.user.image} />
+                                    <span style={{ padding: '0px 8px', height: '17px', width: '73px', color: '#FFFF', fontWeight: 'normal', fontFamily: 'Ropa Sans', fontSize: '18px', lineheight: '17px' }}>{this.props.user.fullname}</span>
+                                </Header>
+                            </Menu.Item>
+                            <MenuRender></MenuRender>
+                            <Menu.Item style={{ marginRight: '0.0em', marginLeft: '0.0em', padding: '0px 0px' }} >
+                                <Button onClick={() => this.props.signout()} color={this.setcolor('')} primary={false} style={{ fontWeight: 'normal', textAlign: 'left', width: '212px', fontFamily: 'Ropa Sans', marginLeft: '0em', padding: '1.4em 2em' }}>
+                                    <span>Signout</span>
+                                </Button>
+                            </Menu.Item>
+                        </Menu>
+                    </Sidebar>
+                </Responsive>
+
+            </>
         )
     }
 }

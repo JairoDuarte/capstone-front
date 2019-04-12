@@ -32,7 +32,6 @@ const mapDispatchToProps = dispatch => ({
 
 
 function ButtomRequest() {
-
     return (
         <Button as={Link} to='/skhera/2/add' size='huge' color='grs' style={{ textAlign: 'left', width: '252px', marginLeft: '1.7em', padding: '1em 0px' }}>
             <Icon name='edit outline' size='big' style={{ marginTop: '1em', marginBottom: '1em', marginLeft: '1.0em' }} />
@@ -47,7 +46,8 @@ class Dashboard extends Component {
     state = { active: 'My Profile', open: false, columns: 3, menus: [{ label: 'My Skhera', url: '/skhera/2/list' }, { label: 'My Profile', url: '/profile/3' }, { label: 'My Address', url: '/profile/3/address' }, { label: 'FAQ', url: '/profile/2/faq' }] }
     componentDidMount() {
         const { socket } = this.props;
-        this.props.getSkheraService();
+        if(this.props.match.params.page === 'list') this.props.getSkheraService();
+        
         socket.on('accept skhera', ({ idconsumer }) => {
             if (idconsumer === this.props.user.id) {
                 this.props.addNotification('Your skhera is accepted by Rider');
@@ -58,7 +58,7 @@ class Dashboard extends Component {
         const { params } = this.props.match;
 
         const RenderMenu = () => {
-            if (!params.page) {
+           if (!params.page) {
                 return (
                     <Menu active='My Profile' menus={this.state.menus}></Menu>
                 )
@@ -89,11 +89,13 @@ class Dashboard extends Component {
                 return (
                     <>
                         <Grid.Column textAlign='left'>
-                            <Profile errMess={this.props.errMess} updateUserService={this.props.updateUserService} user={this.props.user}></Profile>
+                            <Profile mobile={this.props.mobile} errMess={this.props.errMess} updateUserService={this.props.updateUserService} user={this.props.user}></Profile>
                         </Grid.Column>
+                        {this.props.mobile ? <></> :
                         <Grid.Column>
-                            <ButtomRequest></ButtomRequest>
+                             <ButtomRequest></ButtomRequest>
                         </Grid.Column>
+                        }
                     </>
                 )
             }
@@ -114,9 +116,11 @@ class Dashboard extends Component {
                     <>
                         <Grid.Column textAlign='left'>
                         </Grid.Column>
+                        {this.props.mobile ? <></> :
                         <Grid.Column>
-                            <ButtomRequest></ButtomRequest>
+                             <ButtomRequest></ButtomRequest>
                         </Grid.Column>
+                        }
                     </>
                 )
             }
@@ -148,11 +152,13 @@ class Dashboard extends Component {
         return (
             <div>
                 <Container  style={{ color: 'black', marginBottom: '150px', marginTop: '120px', width: '100%', height: '100%', padding: '0em 0em' }} >
-                    <Grid  columns={this.props.match.params.columns} container >
+                    <Grid  columns={this.props.mobile ? 1 : this.props.match.params.columns} container >
                         <Grid.Row>
+                            {this.props.mobile  ? <></> :
                             <Grid.Column width={width()} style={{ marginTop: '1.2em' }}>
                                 <RenderMenu></RenderMenu>
                             </Grid.Column>
+                            }
                             <RenderComponent></RenderComponent>
                         </Grid.Row>
                         <TransitionablePortal transition={{duration: 1000}} onClose={()=> this.props.removeNotification()} open={this.props.open}>

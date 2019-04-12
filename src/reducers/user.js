@@ -1,6 +1,6 @@
 import * as ActionTypes from '../constants';
 
-const INITIAL_STATE =  { errMess: null, location: {latitude: 0, longitude: 0}, notification: null, open: false };
+const INITIAL_STATE =  { menuActive: 'My Profile', errMess: null, location: {latitude: 0, longitude: 0}, notification: null, open: false };
 
 export const User = (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -12,7 +12,8 @@ export const User = (state = INITIAL_STATE, action) => {
             return { ...state, location: action.payload, errMess: null};
         case ActionTypes.USER_FAILED:
             return { ...state, errMess: action.payload};
-        
+        case ActionTypes.SET_MENU:
+            return { ...state, menuActive: action.payload}
         default:
             return state;
     }

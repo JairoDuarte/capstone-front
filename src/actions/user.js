@@ -54,3 +54,8 @@ export const errorUser = (errormess) => ({
     type: ActionTypes.USER_FAILED,
     payload: errormess
 })
+
+export const setMenu = ( menu ) => ({
+    type: ActionTypes.SET_MENU,
+    payload: menu
+})
