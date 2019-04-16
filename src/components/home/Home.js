@@ -52,7 +52,7 @@ export default class Home extends Component {
                 
                 </Header>
                 {!mobile ? '' :
-                <Image style={{marginBottom: '0em', marginTop: '5em'}}  rounded size='large' src='assets/images/app.png' />
+                <Image style={{marginBottom: '0em', marginTop: '5em'}} alt='logo'  rounded size='large' src='assets/images/app.png' />
                 }
 
               </Grid.Column>

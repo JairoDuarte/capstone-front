@@ -11,7 +11,9 @@ import {connect} from 'react-redux';
 import { baseUrl } from '../services/baseUrl';
 import {signout} from '../actions/auth'
 import { acceptSkheraService, declineSkheraService } from '../actions/skhera';
-import { updateUserStatus, setMenu } from '../actions/user'
+import { updateUserStatus, setMenu } from '../actions/user';
+import { askForPermissioToReceiveNotifications } from '../push-notification';
+
 import {
   Responsive,
 } from 'semantic-ui-react'
@@ -46,6 +48,10 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class Main extends Component {
+
+  componentDidMount(){
+    askForPermissioToReceiveNotifications();
+  }
 
   render() {
     

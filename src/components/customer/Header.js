@@ -6,44 +6,14 @@ import { Link } from 'react-router-dom';
 
 let _this = {};
 
-class MobileContainer extends Component {
-    state = {}
-
-    handleSidebarHide = () => this.setState({ sidebarOpened: false })
-
-    handleToggle = () => this.setState({ sidebarOpened: true })
-
-    render() {
-
-        return (
-            <Responsive
-                getWidth={window.innerWidth}
-                maxWidth={Responsive.onlyMobile.maxWidth}
-            >
-                <Segment
-                    inverted
-                    textAlign='center'
-                    style={{ minHeight: '640px', width: '100%', backgroundPosition: '50% 25%', padding: '0em 0em', backgroundImage: `url('assets/images/jibleecover.png')` }}
-                    vertical
-                >
-                    <Container>
-                        <Menu inverted pointing secondary size='large'>
-                            <Menu.Item> <img alt='logo' style={{ height: '33px', width: '73px' }} src='/assets/images/Logo_Jible White.png' /> </Menu.Item>
-                        </Menu>
-                    </Container>
-
-                </Segment>
-
-            </Responsive>
-        )
-    }
-}
-
-
-
-
 export default class HeaderComponent extends Component {
     state = { open: false, min: 0, sec: 0, latitude: 0, longitude: 0 }
+
+    componentWillMount() {
+        if (window.swObservable) {
+          window.swObservable.subscribe(hasUpdate => this.setState({ hasUpdate }));
+        }
+      }
 
     componentDidMount() {
         _this = this;
