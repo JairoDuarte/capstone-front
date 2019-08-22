@@ -1,63 +1,86 @@
-import React, { Component } from 'react';
-import { Button, Container, Image, Menu, Responsive, Segment, Visibility} from 'semantic-ui-react';
-import {withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {signin} from '../../actions/auth';
-import HomepageHeading from './LoginHeading';
+import React, { Component } from "react";
+import {
+  Button,
+  Container,
+  Image,
+  Menu,
+  Responsive,
+  Segment,
+  Visibility
+} from "semantic-ui-react";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { signin } from "../../actions/auth";
+import HomepageHeading from "./LoginHeading";
 
-// TODO delete comments 
+import axios from "axios";
+import { baseUrl } from "../../services/baseUrl";
+
+// TODO delete comments
 /* eslint-disable react/no-multi-comp */
 /* Heads up! HomepageHeading uses inline styling, however it's not the best practice. Use CSS or styled components for
  * such things.
  */
 
 const getWidth = () => {
-  return window.innerWidth
-}
+  return window.innerWidth;
+};
 
 class MobileContainer extends Component {
-  state = {}
+  state = {};
 
-  handleSidebarHide = () => this.setState({ sidebarOpened: false })
+  handleSidebarHide = () => this.setState({ sidebarOpened: false });
 
-  handleToggle = () => this.setState({ sidebarOpened: true })
+  handleToggle = () => this.setState({ sidebarOpened: true });
 
   render() {
-
     return (
-      <Responsive
-        getWidth={getWidth}
-        maxWidth={Responsive.onlyMobile.maxWidth}
-      >
+      <Responsive getWidth={getWidth} maxWidth={Responsive.onlyMobile.maxWidth}>
         <Segment
           inverted
-          textAlign='center'
-          style={{ minHeight: '640px', width: '100%',backgroundPosition: '50% 25%', padding: '0em 0em', backgroundImage: `url('assets/images/jibleecover.png')` }}
+          textAlign="center"
+          style={{
+            minHeight: "640px",
+            width: "100%",
+            backgroundPosition: "50% 25%",
+            padding: "0em 0em",
+            backgroundImage: `url('assets/images/jibleecover.png')`
+          }}
           vertical
         >
           <Container>
-            <Menu inverted pointing secondary size='large'>
-              <Menu.Item> <img alt='logo' style={{ height: '33px', width: '73px' }} src='/assets/images/Logo_Jible White.png' /> </Menu.Item>
+            <Menu inverted pointing secondary size="large">
+              <Menu.Item>
+                {" "}
+                <img
+                  alt="logo"
+                  style={{ height: "33px", width: "73px" }}
+                  src="/assets/images/Logo_Jible White.png"
+                />{" "}
+              </Menu.Item>
             </Menu>
           </Container>
 
-          <HomepageHeading mobile signin={this.props.signin} socket={this.props.socket} ></HomepageHeading>
+          <HomepageHeading
+            facebookResponse={this.props.facebookResponse}
+            mobile
+            signin={this.props.signin}
+            socket={this.props.socket}
+          />
         </Segment>
-
       </Responsive>
-    )
+    );
   }
 }
 
-
 class DesktopContainer extends Component {
-  state = {}
+  state = {};
 
-  hideFixedMenu = () => this.setState({ fixed: false })
-  showFixedMenu = () => this.setState({ fixed: true })
+  hideFixedMenu = () => this.setState({ fixed: false });
+  showFixedMenu = () => this.setState({ fixed: true });
 
   render() {
-    const { fixed } = this.state
+    const { fixed } = this.state;
 
     return (
       <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
@@ -67,64 +90,120 @@ class DesktopContainer extends Component {
           onBottomPassedReverse={this.hideFixedMenu}
         >
           <Segment
-            textAlign='center'
-            style={{ minHeight: 700, padding: '1em 0em', backgroundImage: `url('assets/images/jibleecover.png')` }}
+            textAlign="center"
+            style={{
+              minHeight: 700,
+              padding: "1em 0em",
+              backgroundImage: `url('assets/images/jibleecover.png')`
+            }}
             vertical
           >
             <Menu
-              fixed={fixed ? 'top' : null}
+              fixed={fixed ? "top" : null}
               inverted={!fixed}
-
               secondary
               borderless={false}
-              size='large'
+              size="large"
             >
               <Container>
-                <Menu.Item> <Image href="/" alt='logo' style={{ height: '44.85px', width: '91.41px' }} src='/assets/images/Logo_Jible White.png' /> </Menu.Item>
-                <Menu.Item position='right'>
-                  <Button onClick={() => {alert('hello')}}  color='grs' style={{ fontFamily: 'Ropa Sans', padding: '14px 50px' }}>
+                <Menu.Item>
+                  {" "}
+                  <Image
+                    href="/"
+                    alt="logo"
+                    style={{ height: "44.85px", width: "91.41px" }}
+                    src="/assets/images/Logo_Jible White.png"
+                  />{" "}
+                </Menu.Item>
+                <Menu.Item position="right">
+                  <Button
+                    onClick={() => {
+                      alert("hello");
+                    }}
+                    color="grs"
+                    style={{ fontFamily: "Ropa Sans", padding: "14px 50px" }}
+                  >
                     &nbsp;Signup&nbsp;
-                    </Button>
-                  <Button color='grl' primary={false} as='a' style={{ fontFamily: 'Ropa Sans', marginLeft: '2.5em', padding: '14px 50px' }}>
+                  </Button>
+                  <Button
+                    color="grl"
+                    primary={false}
+                    as="a"
+                    style={{
+                      fontFamily: "Ropa Sans",
+                      marginLeft: "2.5em",
+                      padding: "14px 50px"
+                    }}
+                  >
                     &nbsp;Login&nbsp;
-                    </Button>
+                  </Button>
                 </Menu.Item>
               </Container>
             </Menu>
-            <HomepageHeading signin={this.props.signin} socket={this.props.socket} ></HomepageHeading>
+            <HomepageHeading
+              facebookResponse={this.props.facebookResponse}
+              signin={this.props.signin}
+              socket={this.props.socket}
+            />
           </Segment>
         </Visibility>
       </Responsive>
-    )
+    );
   }
 }
-// TODO Responsive menu 
+// TODO Responsive menu
 
 const mapDispatchToProps = dispatch => ({
-  signin: (user) => dispatch(signin(user))
-
+  signin: user => dispatch(signin(user))
 });
 
 const mapStateToProps = state => {
   return {
     user: state.auth.user
-  }
-}
+  };
+};
 
 class HeaderComponent extends Component {
-  state = { activeItem: 'home' }
+  state = { activeItem: "home" };
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  facebookResponse = (response, role) => {
+    axios
+      .post(`${baseUrl}/api/auth/facebook`, {
+        access_token: response.accessToken,
+        role: role
+      })
+      .then(response => {
+        console.log(response);
+        this.props.signin(response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
-
     return (
       <div>
-        <DesktopContainer signin={this.props.signin} socket={this.props.socket} ></DesktopContainer>
-        <MobileContainer signin={this.props.signin} socket={this.props.socket}></MobileContainer>
+        <DesktopContainer
+          facebookResponse={this.facebookResponse}
+          signin={this.props.signin}
+          socket={this.props.socket}
+        />
+        <MobileContainer
+          facebookResponse={this.facebookResponse}
+          signin={this.props.signin}
+          socket={this.props.socket}
+        />
       </div>
-    )
+    );
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderComponent));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(HeaderComponent)
+);
