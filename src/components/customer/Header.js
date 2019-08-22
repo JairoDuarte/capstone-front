@@ -1,17 +1,8 @@
-import React, { Component } from "react";
-import {
-  Container,
-  Menu,
-  Header,
-  Image,
-  Button,
-  Grid,
-  Popup,
-  Icon
-} from "semantic-ui-react";
-import { STATUS_ACTIF, STATUS_INACTIF, COURSIER_ROLE } from "../../constants";
-import { Sidebar, Responsive } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { Container, Menu, Header, Image, Button, Grid, Popup, Icon } from 'semantic-ui-react';
+import { STATUS_ACTIF, STATUS_INACTIF, COURSIER_ROLE } from '../../constants';
+import { Sidebar, Responsive } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 let _this = {};
 
@@ -57,29 +48,18 @@ export default class HeaderComponent extends Component {
 
   handleToggle = () => this.setState({ sidebarOpened: true });
   setcolor = name => {
-    return name === this.props.menuActive ? "pink" : "grs";
+    return name === this.props.menuActive ? 'pink' : 'grs';
   };
 
   render() {
-    let color =
-      this.props.notifications && this.props.notifications.length === 0
-        ? ""
-        : "green";
-    let name =
-      this.props.notifications && this.props.notifications.length === 0
-        ? "bell outline"
-        : "bell";
+    let color = this.props.notifications && this.props.notifications.length === 0 ? '' : 'green';
+    let name = this.props.notifications && this.props.notifications.length === 0 ? 'bell outline' : 'bell';
     const RenderStatus = () => {
       return this.props.user.status === STATUS_ACTIF ? (
         <Popup
           on="click"
           content={
-            <Button
-              onClick={() => this.props.updateUserStatus(STATUS_INACTIF)}
-              color="grs"
-              content="Inactif"
-              fluid
-            />
+            <Button onClick={() => this.props.updateUserStatus(STATUS_INACTIF)} color="grs" content="Inactif" fluid />
           }
           trigger={<Icon as="i" size="large" color="green" name="bell" />}
           wide
@@ -88,12 +68,7 @@ export default class HeaderComponent extends Component {
         <Popup
           on="click"
           content={
-            <Button
-              onClick={() => this.props.updateUserStatus(STATUS_ACTIF)}
-              color="grs"
-              content="Actif"
-              fluid
-            />
+            <Button onClick={() => this.props.updateUserStatus(STATUS_ACTIF)} color="grs" content="Actif" fluid />
           }
           trigger={<Icon as="i" size="large" name="bell outline" />}
           wide
@@ -104,11 +79,7 @@ export default class HeaderComponent extends Component {
       let skhera = this.state.open ? this.props.notifications[0] : null;
       return this.state.open ? (
         <>
-          <Popup
-            trigger={<Icon as="i" size="large" color={color} name={name} />}
-            wide
-            open={this.state.open}
-          >
+          <Popup trigger={<Icon as="i" size="large" color={color} name={name} />} wide open={this.state.open}>
             <Header>{`${this.state.min}:${this.state.sec}min`}</Header>
             <Grid divided columns="equal">
               <Grid.Column>
@@ -158,9 +129,9 @@ export default class HeaderComponent extends Component {
           <>
             <Menu.Item
               style={{
-                marginRight: "0.0em",
-                marginLeft: "0.0em",
-                padding: "0px 0px"
+                marginRight: '0.0em',
+                marginLeft: '0.0em',
+                padding: '0px 0px'
               }}
             >
               <Button
@@ -170,12 +141,12 @@ export default class HeaderComponent extends Component {
                 as={Link}
                 to={item.url}
                 style={{
-                  fontWeight: "normal",
-                  textAlign: "left",
-                  width: "212px",
-                  fontFamily: "Ropa Sans",
-                  marginLeft: "0em",
-                  padding: "1.4em 2em"
+                  fontWeight: 'normal',
+                  textAlign: 'left',
+                  width: '212px',
+                  fontFamily: 'Ropa Sans',
+                  marginLeft: '0em',
+                  padding: '1.4em 2em'
                 }}
               >
                 <span>{item.label}</span>
@@ -189,20 +160,17 @@ export default class HeaderComponent extends Component {
 
     return (
       <>
-        <Responsive
-          getWidth={this.props.getWidth}
-          minWidth={Responsive.onlyTablet.minWidth}
-        >
+        <Responsive getWidth={this.props.getWidth} minWidth={Responsive.onlyTablet.minWidth}>
           <Menu secondary borderless={false} size="large">
-            <Container style={{ marginTop: "2em", marginBottom: "49px" }}>
+            <Container style={{ marginTop: '2em', marginBottom: '49px' }}>
               <Menu.Item>
-                {" "}
+                {' '}
                 <Image
                   href="/"
                   alt="logo"
-                  style={{ height: "36px", width: "112px" }}
+                  style={{ height: '36px', width: '112px' }}
                   src="/assets/images/Logo_Jible.png"
-                />{" "}
+                />{' '}
               </Menu.Item>
               <Menu.Menu position="right">
                 <Menu.Item>
@@ -212,27 +180,20 @@ export default class HeaderComponent extends Component {
                   <Header as="h3">
                     <Popup
                       on="click"
-                      content={
-                        <Button
-                          onClick={() => this.props.signout()}
-                          color="grs"
-                          content="Sign out"
-                          fluid
-                        />
-                      }
+                      content={<Button onClick={() => this.props.signout()} color="grs" content="Sign out" fluid />}
                       trigger={<Image circular src={this.props.user.image} />}
                       wide
                     />
                     <span
                       style={{
-                        padding: "0px 8px",
-                        height: "17px",
-                        width: "73px",
-                        color: "#000000",
-                        fontWeight: "normal",
-                        fontFamily: "Ropa Sans",
-                        fontSize: "16px",
-                        lineheight: "17px"
+                        padding: '0px 8px',
+                        height: '17px',
+                        width: '73px',
+                        color: '#000000',
+                        fontWeight: 'normal',
+                        fontFamily: 'Ropa Sans',
+                        fontSize: '16px',
+                        lineheight: '17px'
                       }}
                     >
                       {this.props.user.fullname}
@@ -243,16 +204,13 @@ export default class HeaderComponent extends Component {
             </Container>
           </Menu>
         </Responsive>
-        <Responsive
-          getWidth={this.props.getWidth}
-          maxWidth={Responsive.onlyMobile.maxWidth}
-        >
+        <Responsive getWidth={this.props.getWidth} maxWidth={Responsive.onlyMobile.maxWidth}>
           <Menu color="grs" secondary size="large">
             <Menu.Item>
               <Image
                 href="/"
                 alt="logo"
-                style={{ height: "36px", width: "112px" }}
+                style={{ height: '36px', width: '112px' }}
                 src="/assets/images/Logo_Jible.png"
               />
             </Menu.Item>
@@ -270,23 +228,23 @@ export default class HeaderComponent extends Component {
             vertical
             visible={sidebarOpened}
             direction="right"
-            style={{ backgroundColor: "grs" }}
+            style={{ backgroundColor: 'grs' }}
             className="mobile"
           >
             <Menu color="grs" vertical secondary size="large">
-              <Menu.Item style={{ marginTop: "3em", marginBottom: "2.5em" }}>
-                <Header style={{ marginLeft: "-4em" }}>
+              <Menu.Item style={{ marginTop: '3em', marginBottom: '2.5em' }}>
+                <Header style={{ marginLeft: '-4em' }}>
                   <Image alt="user" circular src={this.props.user.image} />
                   <span
                     style={{
-                      padding: "0px 8px",
-                      height: "17px",
-                      width: "73px",
-                      color: "#FFFF",
-                      fontWeight: "normal",
-                      fontFamily: "Ropa Sans",
-                      fontSize: "18px",
-                      lineheight: "17px"
+                      padding: '0px 8px',
+                      height: '17px',
+                      width: '73px',
+                      color: '#FFFF',
+                      fontWeight: 'normal',
+                      fontFamily: 'Ropa Sans',
+                      fontSize: '18px',
+                      lineheight: '17px'
                     }}
                   >
                     {this.props.user.fullname}
@@ -296,22 +254,22 @@ export default class HeaderComponent extends Component {
               <MenuRender />
               <Menu.Item
                 style={{
-                  marginRight: "0.0em",
-                  marginLeft: "0.0em",
-                  padding: "0px 0px"
+                  marginRight: '0.0em',
+                  marginLeft: '0.0em',
+                  padding: '0px 0px'
                 }}
               >
                 <Button
                   onClick={() => this.props.signout()}
-                  color={this.setcolor("")}
+                  color={this.setcolor('')}
                   primary={false}
                   style={{
-                    fontWeight: "normal",
-                    textAlign: "left",
-                    width: "212px",
-                    fontFamily: "Ropa Sans",
-                    marginLeft: "0em",
-                    padding: "1.4em 2em"
+                    fontWeight: 'normal',
+                    textAlign: 'left',
+                    width: '212px',
+                    fontFamily: 'Ropa Sans',
+                    marginLeft: '0em',
+                    padding: '1.4em 2em'
                   }}
                 >
                   <span>Signout</span>
