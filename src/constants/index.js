@@ -21,4 +21,3 @@ export const SKHERA_FAILED = 'SKHERA_FAILED';
 export const USER_FAILED = 'USER_FAILED';
 export const SET_MENU = 'SET_MENU';
 export const CUSTOMER_ROLE = 'consumer';
-

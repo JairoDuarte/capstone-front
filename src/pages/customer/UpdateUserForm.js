@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import * as Yup from "yup";
-import { Label, Form, Input } from "semantic-ui-react";
+import React, { Component } from 'react';
+import * as Yup from 'yup';
+import { Label, Form, Input } from 'semantic-ui-react';
 
 export default class UpdateUserForm extends Component {
   constructor(props) {
@@ -10,21 +10,22 @@ export default class UpdateUserForm extends Component {
       fullname: props.user.fullname,
       email: props.user.email,
       phone: props.user.phone,
-      errors: { fullname: false, email: false, phone: false, text: "" }
+      errors: { fullname: false, email: false, phone: false, text: '' }
     };
   }
 
   handleInputChange = event => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
+    const { target } = event;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const { name } = target;
 
     this.setState({
       [name]: value
     });
   };
+
   handleSubmit = () => {
-    let user = this.props.user;
+    const { user } = this.props;
     user.fullname = this.state.fullname;
     user.email = this.state.email;
     user.phone = this.state.phone;
@@ -42,33 +43,34 @@ export default class UpdateUserForm extends Component {
         this.props.updateUserService(user);
       })
       .catch(err => {
-        if (err.params.path === "email") {
+        if (err.params.path === 'email') {
           this.setState({
             errors: { ...this.state.errors, email: true, text: err.message }
           });
-        } else if (err.params.path === "fullname") {
+        } else if (err.params.path === 'fullname') {
           this.setState({
             errors: { ...this.state.errors, fullname: true, text: err.message }
           });
-        } else if (err.params.path === "phone") {
+        } else if (err.params.path === 'phone') {
           this.setState({
             errors: { ...this.state.errors, phone: true, text: err.message }
           });
         }
       });
   };
+
   validationForm = () =>
     Yup.object().shape({
       fullname: Yup.string()
-        .min(8, "Too Short!")
-        .max(50, "Too Long!")
-        .required("Required"),
+        .min(8, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
       email: Yup.string()
         .email()
-        .min(8, "Too Short!")
-        .max(50, "Too Long!")
-        .required("Required"),
-      phone: Yup.number().min(10, "Too Short!")
+        .min(8, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      phone: Yup.number().min(10, 'Too Short!')
     });
 
   render() {
@@ -79,19 +81,19 @@ export default class UpdateUserForm extends Component {
           this.handleSubmit(event);
         }}
         style={{
-          color: "#909090",
-          fontFamily: "Ropa Sans",
-          fontSize: "16px",
-          fontWeight: "normal"
+          color: '#909090',
+          fontFamily: 'Ropa Sans',
+          fontSize: '16px',
+          fontWeight: 'normal'
         }}
       >
         <Form.Field>
           <label
             style={{
-              color: "#909090",
-              fontFamily: "Ropa Sans",
-              fontSize: "16px",
-              fontWeight: "normal"
+              color: '#909090',
+              fontFamily: 'Ropa Sans',
+              fontSize: '16px',
+              fontWeight: 'normal'
             }}
           >
             Full name
@@ -115,10 +117,10 @@ export default class UpdateUserForm extends Component {
         <Form.Field>
           <label
             style={{
-              color: "#909090",
-              fontFamily: "Ropa Sans",
-              fontSize: "16px",
-              fontWeight: "normal"
+              color: '#909090',
+              fontFamily: 'Ropa Sans',
+              fontSize: '16px',
+              fontWeight: 'normal'
             }}
           >
             Email
@@ -134,12 +136,7 @@ export default class UpdateUserForm extends Component {
             placeholder="Email"
           />
           {errors.email ? (
-            <Label
-              style={{ fontSize: "14px", fontWeight: "normal" }}
-              basic
-              color="red"
-              pointing
-            >
+            <Label style={{ fontSize: '14px', fontWeight: 'normal' }} basic color="red" pointing>
               {errors.text}
             </Label>
           ) : null}
@@ -147,10 +144,10 @@ export default class UpdateUserForm extends Component {
         <Form.Field>
           <label
             style={{
-              color: "#909090",
-              fontFamily: "Ropa Sans",
-              fontSize: "16px",
-              fontWeight: "normal"
+              color: '#909090',
+              fontFamily: 'Ropa Sans',
+              fontSize: '16px',
+              fontWeight: 'normal'
             }}
           >
             Phone
@@ -166,12 +163,7 @@ export default class UpdateUserForm extends Component {
             placeholder="212622333820"
           />
           {errors.phone ? (
-            <Label
-              basic
-              color="red"
-              pointing
-              style={{ fontSize: "14px", fontWeight: "normal" }}
-            >
+            <Label basic color="red" pointing style={{ fontSize: '14px', fontWeight: 'normal' }}>
               {errors.text}
             </Label>
           ) : null}
@@ -180,15 +172,13 @@ export default class UpdateUserForm extends Component {
           type="submit"
           color="blue"
           style={{
-            marginTop: "1em",
-            marginLeft: "0.0em",
-            height: "2.5em",
-            width: "100%",
-            padding: "0px 0px"
+            marginTop: '1em',
+            marginLeft: '0.0em',
+            height: '2.5em',
+            width: '100%',
+            padding: '0px 0px'
           }}
-          disabled={
-            !this.state.email || !this.state.fullname || !this.state.phone
-          }
+          disabled={!this.state.email || !this.state.fullname || !this.state.phone}
         >
           Update
         </Form.Button>

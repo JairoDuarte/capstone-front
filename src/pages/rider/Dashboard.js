@@ -45,7 +45,7 @@ class Dashboard extends Component {
 
     socket.on('new skhera', ({ skhera, idrider }) => {
       if (idrider === this.props.user.id) {
-        let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
+        const notifications = JSON.parse(localStorage.getItem('notifications')) || [];
         for (let index = 0; index < notifications.length; index++) {
           const element = notifications[index];
           if (element._id === skhera._id) {
@@ -56,6 +56,7 @@ class Dashboard extends Component {
       }
     });
   }
+
   setLocation = () => {
     if (
       this.props.isGeolocationEnabled &&
@@ -88,11 +89,14 @@ class Dashboard extends Component {
     const RenderMenu = () => {
       if (params.page === 'profile') {
         return <Menu active="My Profile" menus={this.state.menus} />;
-      } else if (params.page === 'skhera') {
+      }
+      if (params.page === 'skhera') {
         return <Menu active="Skherat TODO" menus={this.state.menus} />;
-      } else if (params.page === 'statistics') {
+      }
+      if (params.page === 'statistics') {
         return <Menu active="Statistics" menus={this.state.menus} />;
-      } else if (params.page === 'faq') {
+      }
+      if (params.page === 'faq') {
         return <Menu active="FAQ" menus={this.state.menus} />;
       }
     };
@@ -106,16 +110,19 @@ class Dashboard extends Component {
             <Grid.Column />
           </>
         );
-      } else if (params.page === 'skhera') {
+      }
+      if (params.page === 'skhera') {
         return <></>;
-      } else if (params.page === 'statistics') {
+      }
+      if (params.page === 'statistics') {
         return (
           <>
             <Grid.Column textAlign="left" />
             <Grid.Column />
           </>
         );
-      } else if (params.page === 'faq') {
+      }
+      if (params.page === 'faq') {
         return (
           <>
             <Grid.Column textAlign="left" />
@@ -150,7 +157,7 @@ class Dashboard extends Component {
               open={this.props.open}
             >
               <Segment
-                raised={true}
+                raised
                 style={{
                   left: '62%',
                   position: 'absolute',
@@ -182,4 +189,4 @@ export default withRouter(
   )
 );
 
-//export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));
+// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));

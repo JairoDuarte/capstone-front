@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Container, Menu, Header, Image, Button, Grid, Popup, Icon } from 'semantic-ui-react';
-import { STATUS_ACTIF, STATUS_INACTIF, COURSIER_ROLE } from '../../constants';
-import { Sidebar, Responsive } from 'semantic-ui-react';
+import { Container, Menu, Header, Image, Button, Grid, Popup, Icon, Sidebar, Responsive } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { STATUS_ACTIF, STATUS_INACTIF, COURSIER_ROLE } from '../../constants';
 
 let _this = {};
 
@@ -19,15 +18,16 @@ export default class HeaderComponent extends Component {
     _this = this;
     this.interval = setInterval(() => this.notifications(), 5000);
   }
+
   notifications = () => {
     if (_this.props.notifications.length > 0 && !_this.state.open) {
-      let time = new Date().getTime() - _this.props.notifications[0].date;
+      const time = new Date().getTime() - _this.props.notifications[0].date;
       if (time > 60000) {
         this.props.declineSkheraService(_this.props.notifications[0]);
       } else {
-        let min = 0;
-        let sec = 60;
-        this.setState({ min: min, sec: sec, open: true });
+        const min = 0;
+        const sec = 60;
+        this.setState({ min, sec, open: true });
         this.handleTimer = setInterval(() => this.timer(time), 1000);
       }
     } else if (this.state.min === 0 && this.state.sec === 0) {
@@ -37,6 +37,7 @@ export default class HeaderComponent extends Component {
       this.setState({ min: 0, sec: 60, open: false });
     }
   };
+
   timer = () => {
     if (this.state.sec > 0) {
       this.setState({ sec: this.state.sec - 1 });
@@ -44,16 +45,18 @@ export default class HeaderComponent extends Component {
       this.setState({ sec: 0, min: 0 });
     }
   };
+
   handleSidebarHide = () => this.setState({ sidebarOpened: false });
 
   handleToggle = () => this.setState({ sidebarOpened: true });
+
   setcolor = name => {
     return name === this.props.menuActive ? 'pink' : 'grs';
   };
 
   render() {
-    let color = this.props.notifications && this.props.notifications.length === 0 ? '' : 'green';
-    let name = this.props.notifications && this.props.notifications.length === 0 ? 'bell outline' : 'bell';
+    const color = this.props.notifications && this.props.notifications.length === 0 ? '' : 'green';
+    const name = this.props.notifications && this.props.notifications.length === 0 ? 'bell outline' : 'bell';
     const RenderStatus = () => {
       return this.props.user.status === STATUS_ACTIF ? (
         <Popup
@@ -76,7 +79,7 @@ export default class HeaderComponent extends Component {
       );
     };
     const RenderNotification = () => {
-      let skhera = this.state.open ? this.props.notifications[0] : null;
+      const skhera = this.state.open ? this.props.notifications[0] : null;
       return this.state.open ? (
         <>
           <Popup trigger={<Icon as="i" size="large" color={color} name={name} />} wide open={this.state.open}>

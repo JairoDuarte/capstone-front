@@ -1,20 +1,12 @@
-import React, { Component } from "react";
-import {
-  Button,
-  Container,
-  Image,
-  Menu,
-  Responsive,
-  Segment,
-  Visibility
-} from "semantic-ui-react";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { signin } from "../../actions/auth";
-import HomepageHeading from "./LoginHeading";
+import React, { Component } from 'react';
+import { Button, Container, Image, Menu, Responsive, Segment, Visibility } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { signin } from '../../actions/auth';
+import HomepageHeading from './LoginHeading';
 
-import axios from "axios";
-import { baseUrl } from "../../services/baseUrl";
+import baseUrl from '../../services/baseUrl';
 
 // TODO delete comments
 /* eslint-disable react/no-multi-comp */
@@ -40,10 +32,10 @@ class MobileContainer extends Component {
           inverted
           textAlign="center"
           style={{
-            minHeight: "640px",
-            width: "100%",
-            backgroundPosition: "50% 25%",
-            padding: "0em 0em",
+            minHeight: '640px',
+            width: '100%',
+            backgroundPosition: '50% 25%',
+            padding: '0em 0em',
             backgroundImage: `url('assets/images/jibleecover.png')`
           }}
           vertical
@@ -51,12 +43,12 @@ class MobileContainer extends Component {
           <Container>
             <Menu inverted pointing secondary size="large">
               <Menu.Item>
-                {" "}
+                {' '}
                 <img
                   alt="logo"
-                  style={{ height: "33px", width: "73px" }}
+                  style={{ height: '33px', width: '73px' }}
                   src="/assets/images/Logo_Jible White.png"
-                />{" "}
+                />{' '}
               </Menu.Item>
             </Menu>
           </Container>
@@ -77,6 +69,7 @@ class DesktopContainer extends Component {
   state = {};
 
   hideFixedMenu = () => this.setState({ fixed: false });
+
   showFixedMenu = () => this.setState({ fixed: true });
 
   render() {
@@ -84,44 +77,34 @@ class DesktopContainer extends Component {
 
     return (
       <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
-        <Visibility
-          once={false}
-          onBottomPassed={this.showFixedMenu}
-          onBottomPassedReverse={this.hideFixedMenu}
-        >
+        <Visibility once={false} onBottomPassed={this.showFixedMenu} onBottomPassedReverse={this.hideFixedMenu}>
           <Segment
             textAlign="center"
             style={{
               minHeight: 700,
-              padding: "1em 0em",
+              padding: '1em 0em',
               backgroundImage: `url('assets/images/jibleecover.png')`
             }}
             vertical
           >
-            <Menu
-              fixed={fixed ? "top" : null}
-              inverted={!fixed}
-              secondary
-              borderless={false}
-              size="large"
-            >
+            <Menu fixed={fixed ? 'top' : null} inverted={!fixed} secondary borderless={false} size="large">
               <Container>
                 <Menu.Item>
-                  {" "}
+                  {' '}
                   <Image
                     href="/"
                     alt="logo"
-                    style={{ height: "44.85px", width: "91.41px" }}
+                    style={{ height: '44.85px', width: '91.41px' }}
                     src="/assets/images/Logo_Jible White.png"
-                  />{" "}
+                  />{' '}
                 </Menu.Item>
                 <Menu.Item position="right">
                   <Button
                     onClick={() => {
-                      alert("hello");
+                      alert('hello');
                     }}
                     color="grs"
-                    style={{ fontFamily: "Ropa Sans", padding: "14px 50px" }}
+                    style={{ fontFamily: 'Ropa Sans', padding: '14px 50px' }}
                   >
                     &nbsp;Signup&nbsp;
                   </Button>
@@ -130,9 +113,9 @@ class DesktopContainer extends Component {
                     primary={false}
                     as="a"
                     style={{
-                      fontFamily: "Ropa Sans",
-                      marginLeft: "2.5em",
-                      padding: "14px 50px"
+                      fontFamily: 'Ropa Sans',
+                      marginLeft: '2.5em',
+                      padding: '14px 50px'
                     }}
                   >
                     &nbsp;Login&nbsp;
@@ -164,13 +147,13 @@ const mapStateToProps = state => {
 };
 
 class HeaderComponent extends Component {
-  state = { activeItem: "home" };
+  state = { activeItem: 'home' };
 
   facebookResponse = (response, role) => {
     axios
       .post(`${baseUrl}/api/auth/facebook`, {
         access_token: response.accessToken,
-        role: role
+        role
       })
       .then(response => {
         console.log(response);

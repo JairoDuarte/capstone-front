@@ -1,10 +1,10 @@
-import * as ActionTypes from "../constants";
+import * as ActionTypes from '../constants';
 
 const INITIAL_STATE = {
   errMess: null,
-  user: JSON.parse(localStorage.getItem("user")),
-  token: localStorage.getItem("token"),
-  isAuthenticated: JSON.parse(localStorage.getItem("isAuthenticated")) || false
+  user: JSON.parse(localStorage.getItem('user')),
+  token: localStorage.getItem('token'),
+  isAuthenticated: JSON.parse(localStorage.getItem('isAuthenticated')) || false
 };
 
 export const Auth = (state = INITIAL_STATE, action) => {
@@ -23,7 +23,7 @@ export const Auth = (state = INITIAL_STATE, action) => {
       return { ...state, location: action.payload };
 
     case ActionTypes.SIGN_OUT:
-      return { ...state, user: {}, token: "", isAuthenticated: false };
+      return { ...state, user: {}, token: '', isAuthenticated: false };
 
     default:
       return state;

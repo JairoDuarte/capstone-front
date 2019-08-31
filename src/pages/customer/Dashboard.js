@@ -74,6 +74,7 @@ class Dashboard extends Component {
       { label: 'FAQ', url: '/profile/2/faq' }
     ]
   };
+
   componentDidMount() {
     const { socket } = this.props;
     if (this.props.match.params.page === 'list') this.props.getSkheraService();
@@ -84,19 +85,24 @@ class Dashboard extends Component {
       }
     });
   }
+
   render() {
     const { params } = this.props.match;
 
     const RenderMenu = () => {
       if (!params.page) {
         return <Menu active="My Profile" menus={this.state.menus} />;
-      } else if (params.page === 'list') {
+      }
+      if (params.page === 'list') {
         return <Menu active="My Skhera" menus={this.state.menus} />;
-      } else if (params.page === 'add') {
+      }
+      if (params.page === 'add') {
         return <Menu active="My Skhera" menus={this.state.menus} />;
-      } else if (params.page === 'address') {
+      }
+      if (params.page === 'address') {
         return <Menu active="My Address" menus={this.state.menus} />;
-      } else if (params.page === 'faq') {
+      }
+      if (params.page === 'faq') {
         return <Menu active="FAQ" menus={this.state.menus} />;
       }
     };
@@ -121,7 +127,8 @@ class Dashboard extends Component {
             )}
           </>
         );
-      } else if (this.props.match.params.page === 'list') {
+      }
+      if (this.props.match.params.page === 'list') {
         return (
           <>
             <Grid.Column width={11} textAlign="left">
@@ -134,7 +141,8 @@ class Dashboard extends Component {
             <Grid.Column />
           </>
         );
-      } else if (this.props.match.params.page === 'address') {
+      }
+      if (this.props.match.params.page === 'address') {
         return (
           <>
             <Grid.Column textAlign="left" />
@@ -147,13 +155,15 @@ class Dashboard extends Component {
             )}
           </>
         );
-      } else if (this.props.match.params.page === 'faq') {
+      }
+      if (this.props.match.params.page === 'faq') {
         return (
           <>
             <Grid.Column textAlign="left" />
           </>
         );
-      } else if (this.props.match.params.page === 'add') {
+      }
+      if (this.props.match.params.page === 'add') {
         return (
           <>
             <Grid.Column textAlign="left">
@@ -194,7 +204,7 @@ class Dashboard extends Component {
               open={this.props.open}
             >
               <Segment
-                raised={true}
+                raised
                 style={{
                   left: '57%',
                   position: 'absolute',

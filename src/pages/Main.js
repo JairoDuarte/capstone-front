@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import io from 'socket.io-client';
+
+import { connect } from 'react-redux';
+import { Responsive } from 'semantic-ui-react';
 import HeaderHome from './home/Header';
 import Footer from './Footer';
 import Home from './home/Home';
 import Dashboard from './customer/Dashboard';
 import RiderDashBoard from './rider/Dashboard';
 import HeaderCustomer from './customer/Header';
-import { connect } from 'react-redux';
-import { baseUrl } from '../services/baseUrl';
+import baseUrl from '../services/baseUrl';
 import { signout } from '../actions/auth';
 import { acceptSkheraService, declineSkheraService } from '../actions/skhera';
 import { updateUserStatus, setMenu } from '../actions/user';
 import { askForPermissioToReceiveNotifications } from '../push-notification';
-
-import { Responsive } from 'semantic-ui-react';
 
 const socket = io.connect(baseUrl);
 export const CUSTOMER_ROLE = 'consumer';

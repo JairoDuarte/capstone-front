@@ -1,16 +1,16 @@
-import * as ActionTypes from "../constants";
+import * as ActionTypes from '../constants';
 
 export const signin = data => dispatch => {
-  localStorage.setItem("user", JSON.stringify(data.user));
-  localStorage.setItem("token", data.token);
-  localStorage.setItem("isAuthenticated", JSON.stringify(true));
+  localStorage.setItem('user', JSON.stringify(data.user));
+  localStorage.setItem('token', data.token);
+  localStorage.setItem('isAuthenticated', JSON.stringify(true));
 
   return dispatch(authSignin(data));
 };
 export const signout = () => dispatch => {
-  localStorage.removeItem("user");
-  localStorage.removeItem("token");
-  localStorage.removeItem("isAuthenticated");
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
+  localStorage.removeItem('isAuthenticated');
 
   return dispatch(authSignout());
 };
