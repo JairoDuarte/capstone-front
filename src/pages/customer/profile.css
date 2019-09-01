@@ -1,0 +1,16 @@
+@media only screen and (max-width: 767px) {
+
+    
+    .ui.grid>.stackable.stackable.row>.column, .ui.stackable.grid>.column.grid>.column, .ui.stackable.grid>.column.row>.column, .ui.stackable.grid>.column:not(.row), .ui.stackable.grid>.row>.column, .ui.stackable.grid>.row>.wide.column, .ui.stackable.grid>.wide.column{
+        width: auto!important; 
+        margin: 0px!important;
+      }
+    .ui.stackable.grid.profname{
+        width: auto!important;
+        margin-top: 10em!important;
+        margin: auto!important;
+    }
+    .ui.stackable.grid>.row>.column {
+        margin-top: 0.5em!important;
+    }
+}
